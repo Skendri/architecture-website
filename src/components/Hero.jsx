@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight, Sparkles } from 'lucide-react'
 
 const Hero = () => {
+  const heroRef = useRef(null)
+
   const scrollToProjects = () => {
     const element = document.getElementById('projects')
     if (element) {
@@ -50,8 +52,9 @@ const Hero = () => {
       </video>
       {/* Overlay for better text readability */}
       <div className="absolute inset-0 bg-black/40 z-0"></div>
-      {/* Background Elements */}
-      <div className="absolute overflow-hidden">
+
+      {/* Background Elements nuk e di ca esht kjo po do ta zbuloj shum shpejt */}
+      {/* <div className="absolute overflow-hidden">
         <motion.div
           className="absolute top-20 right-20 w-32 h-32 bg-gradient-to-r from-primary-500/20 to-secondary-500/20 rounded-full"
           animate={{
@@ -88,7 +91,7 @@ const Hero = () => {
             ease: 'easeInOut'
           }}
         />
-      </div>
+      </div> */}
 
       <div className="container">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -97,7 +100,7 @@ const Hero = () => {
             className="space-y-8"
             initial={{ opacity: 0, x: -50 }}  // 👈 starting position
             animate={{ opacity: 1, x: 0 }}  // 👈 animate to normal position
-            transition={{ duration: 1.2, ease: 'easeInOut' }}  // 👈 smooth animation
+            transition={{ delay: 7, duration: 1.5, ease: 'easeInOut' }}  // 👈 smooth animation
             style={{zIndex: 1, maxWidth: '100rem', gap: '7rem'}}
           >
             <motion.h1
@@ -110,13 +113,14 @@ const Hero = () => {
               <span className="gradient-text">Architecture</span>
             </motion.h1>
 
-            <motion.div 
-              animate={{ opacity: 1 }} 
-              initial={{ opacity: 0 }} 
-              transition={{ delay: 0.3, type: "spring", stiffness: 100 }}
+            <motion.p 
+             className=" text-4xl font-serif font-semibold text-white"
+              // animate={{ opacity: 1 }} 
+              // initial={{ opacity: 0 }} 
+              // transition={{ delay: 0.3, type: "spring", stiffness: 100 }}
             >
               Hello World
-            </motion.div>
+            </motion.p>
 
             <motion.p
               className="text-large max-w-2xl"
@@ -163,7 +167,7 @@ const Hero = () => {
             className="relative h-96 lg:h-[500px]"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.2, duration: 1.0, ease: 'easeInOut' }}
+            transition={{ delay: 7, duration: 1.0, ease: 'easeInOut' }}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-primary-500  rounded-3xl flex items-center justify-center text-white text-6xl">
               🏢

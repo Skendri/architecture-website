@@ -172,7 +172,7 @@ const Contact = () => {
               Send Us a Message
             </motion.h3>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={ e => {e.preventDefault; alert(handleSubmit); }} className="space-y-6">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}

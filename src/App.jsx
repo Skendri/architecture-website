@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -10,10 +10,20 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from "react-route
 
 
 function App() {
+  const [showLogo, setShowLogo] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowLogo(true)
+    }, 2000) // 5 seconds + 0.5s fade in
+
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
     <div className="App">
       <Router>
-        <Header />
+        <Header showLogo={showLogo} />
         <Hero />
         <About />
         <Projects />

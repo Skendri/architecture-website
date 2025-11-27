@@ -8,9 +8,29 @@ const Header = ({ showLogo }) => {
   const [activeSection, setActiveSection] = useState("home");
 
   const [animationStage, setAnimationStage] = useState("fadeIn");
-  const [targetPos, setTargetPos] = useState({ x: 0, y: 0 });
+  const [targetPos, setTargetPos] = useState({ x: -200, y: -800 });
 
   const centerRef = useRef(null);
+
+  // useEffect(() => {
+  //   if (showLogo) {
+  //     setAnimationStage("fadeIn");
+  //     {/* 🔹 animation moves from center to positions i choose */}
+  //     const timer = setTimeout(() => {
+  //       if (headerLogoRef.current) {
+  //         const rect = headerLogoRef.current.getBoundingClientRect();
+  //         setTargetPos({
+  //           x: rect.left - window.innerWidth / 1.8,
+  //           y: rect.top - window.innerHeight / 2,
+  //         });
+  //         setAnimationStage("move");
+  //       }
+  //     }, 4000);
+
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [showLogo]);
+
   const headerLogoRef = useRef(null);
 
   useEffect(() => {
@@ -34,25 +54,24 @@ const Header = ({ showLogo }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Animation moving element from x position to y position
-  useEffect(() => {
-    if (showLogo) {
-      setAnimationStage("fadeIn");
-      {/* 🔹 animation moves from center to positions i choose */}
-      const timer = setTimeout(() => {
-        if (headerLogoRef.current) {
-          const rect = headerLogoRef.current.getBoundingClientRect();
-          setTargetPos({
-            x: rect.left - window.innerWidth / 1.8,
-            y: rect.top - window.innerHeight / 2,
-          });
-          setAnimationStage("move");
-        }
-      }, 4000);
+  // 🔹 Animation moving element from x position to y position
+  // useEffect(() => {
+  //   if (showLogo) {
+  //     setAnimationStage("fadeIn");
+  //     const timer = setTimeout(() => {
+  //       if (headerLogoRef.current) {
+  //         const rect = headerLogoRef.current.getBoundingClientRect();
+  //         setTargetPos({
+  //           x: rect.left - window.innerWidth / 1.8,
+  //           y: rect.top - window.innerHeight / 2,
+  //         });
+  //         setAnimationStage("move");
+  //       }
+  //     }, 4000);
 
-      return () => clearTimeout(timer);
-    }
-  }, [showLogo]);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [showLogo]);
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
@@ -69,44 +88,81 @@ const Header = ({ showLogo }) => {
     { name: "Contact", id: "contact" },
   ];
 
+  useEffect(() => {
+    if (!showLogo) return;
+
+    // faza 1: fade in
+    setAnimationStage("fadeIn");
+
+    // faza 2: pas 2 sekondash zhvendosja
+    const timer = setTimeout(() => {
+      setAnimationStage("moveLogo");
+    }, 4000);
+
+    return () => clearTimeout(timer);
+  }, [showLogo]);
+
   return (
     <>
-      {/* 🔹 Centered animated logo (appears first) */}
-      {showLogo && (
-        <motion.h1
-          ref={centerRef}
-          initial={{ opacity: 0, scale: 0, x: -160, y: -50 }}
-          animate={
-            animationStage === "fadeIn"
-              ? { opacity: 1, scale: 1 }
-              : { x: targetPos.x, y: targetPos.y, scale: 0.5 }
-          }
-          transition={{ duration: 2, ease: easeInOut }}
-          className="fixed top-1/2 left-1/2 z-40 -translate-x-1/2 -translate-y-1/2 text-7xl font-bold text-indigo-400 shadow-lg-600"
-        >
-          ArchStudio
-        </motion.h1>
-      )}
+        {/* 🔹 Centered animated logo (appears first) */}
+        {showLogo && (
+          <motion.h1
+            initial={{ opacity: 0, scale: 0.85, filter: "blur(10px)", x: -175, y: 0 }}
+            animate={
+              animationStage === "fadeIn"
+                ? {
+                    opacity: [0, 1],
+                    scale: [0.85, 1.02, 1], // pirate wobble
+                    filter: ["blur(10px)", "blur(2px)", "blur(0px)"],
+                  }
+                : {
+                    x: targetPos.x,
+                    y: targetPos.y,
+                    scale: 0.45,
+                    opacity: 0,
+                    filter: "blur(20px)", // blur while leaving
+                  }
+            }
+            transition={{
+              duration: animationStage === "fadeIn" ? 1.6 : 1.8,
+              ease: "easeInOut",
+            }}
+            className="fixed top-1/2 left-1/2 z-40 -translate-x-1/2 -translate-y-1/2 text-7xl font-bold text-indigo-400"
+          >
+            ArchStudio
+          </motion.h1>
+        )}
 
-      {/* 🔹 Centered animated logo child (appears first) */}
-      {showLogo && (
-        <motion.h1
-          ref={centerRef}
-          initial={{ opacity: 0, scale: 0, x: -270, y: 10 }}
-          animate={
-            animationStage === "fadeIn"
-              ? { opacity: 1, scale: 1 }
-              : { x: targetPos.x, y: targetPos.y, scale: 0.5 }
-          }
-          transition={{ duration: 2.5, ease: ["easeIn", "easeOut"] }}
-          className="fixed top-1/2 left-1/2 z-40 -translate-x-1/2 -translate-y-1/2 text-4xl font-bold  text-green-900 shadow-lg-600"
-        >
-          Designing Tomorrow's{" "}
-          <span className="gradient-text">Architecture</span>
-        </motion.h1>
-      )}
+        {/* 🔹 Centered animated logo child (appears first) */}
+        {showLogo && (
+          <motion.h1
+            initial={{ opacity: 0, scale: 0.8, filter: "blur(12px)", x: -285 , y: 65 }}
+            animate={
+              animationStage === "fadeIn"
+                ? {
+                    opacity: [0, 1],
+                    scale: [0.8, 1],
+                    filter: ["blur(12px)", "blur(0px)"],
+                  }
+                : {
+                    opacity: 0,
+                    scale: 0.6,
+                    filter: "blur(20px)",
+                  }
+            }
+            transition={{
+              duration: 2.2,
+              delay: 0.4, // ➜ DELAY mes logos & sloganit
+              ease: "easeOut",
+            }}
+            className="fixed top-1/2 left-1/2 z-40 text-4xl font-bold text-green-900"
+          >
+            Designing Tomorrow's{" "}
+            <span className="gradient-text">Architecture</span>
+          </motion.h1>
+        )}
 
-       {/* 🔹 start NAVBAR  */}
+      {/* 🔹 start NAVBAR  */}
       <motion.header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200" : "bg-transparent"}`}
         initial={{ y: -100 }}

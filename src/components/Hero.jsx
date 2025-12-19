@@ -53,46 +53,6 @@ const Hero = () => {
       {/* Overlay for better text readability */}
       <div className="absolute inset-0 bg-black/40 z-0"></div>
 
-      {/* Background Elements nuk e di ca esht kjo po do ta zbuloj shum shpejt */}
-      {/* <div className="absolute overflow-hidden">
-        <motion.div
-          className="absolute top-20 right-20 w-32 h-32 bg-gradient-to-r from-primary-500/20 to-secondary-500/20 rounded-full"
-          animate={{
-            y: [0, -20, 0],
-            rotate: [0, 180, 360]
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: 'easeInOut'
-          }}
-        />
-        <motion.div
-          className="absolute bottom-20 left-20 w-24 h-24 bg-gradient-to-r from-secondary-500/20 to-primary-500/20 rounded-full"
-          animate={{
-            y: [0, 20, 0],
-            rotate: [360, 180, 0]
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: 'easeInOut'
-          }}
-        />
-        <motion.div
-          className="absolute top-1/2 left-1/4 w-16 h-16 bg-gradient-to-r from-primary-500/30 to-secondary-500/30 rounded-full"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.6, 0.3]
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: 'easeInOut'
-          }}
-        />
-      </div> */}
-
       <div className="container">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Text Content */}

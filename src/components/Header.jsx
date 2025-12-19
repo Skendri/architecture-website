@@ -1,91 +1,39 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, easeInOut } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 
 const Header = ({ showLogo }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("home");
+  const location = useLocation();
+  const [activeSection, setActiveSection] = useState(location.pathname === "/" ? "home" : location.pathname.slice(1));
 
   const [animationStage, setAnimationStage] = useState("fadeIn");
   const [targetPos, setTargetPos] = useState({ x: -200, y: -800 });
 
   const centerRef = useRef(null);
 
-  // useEffect(() => {
-  //   if (showLogo) {
-  //     setAnimationStage("fadeIn");
-  //     {/* 🔹 animation moves from center to positions i choose */}
-  //     const timer = setTimeout(() => {
-  //       if (headerLogoRef.current) {
-  //         const rect = headerLogoRef.current.getBoundingClientRect();
-  //         setTargetPos({
-  //           x: rect.left - window.innerWidth / 1.8,
-  //           y: rect.top - window.innerHeight / 2,
-  //         });
-  //         setAnimationStage("move");
-  //       }
-  //     }, 4000);
-
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [showLogo]);
-
   const headerLogoRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
-
-      // Determine active section
-      const sections = navItems.map((item) => item.id);
-      const scrollPosition = window.scrollY + 100; // Offset for header
-
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = document.getElementById(sections[i]);
-        if (section && section.offsetTop <= scrollPosition) {
-          setActiveSection(sections[i]);
-          break;
-        }
-      }
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // 🔹 Animation moving element from x position to y position
-  // useEffect(() => {
-  //   if (showLogo) {
-  //     setAnimationStage("fadeIn");
-  //     const timer = setTimeout(() => {
-  //       if (headerLogoRef.current) {
-  //         const rect = headerLogoRef.current.getBoundingClientRect();
-  //         setTargetPos({
-  //           x: rect.left - window.innerWidth / 1.8,
-  //           y: rect.top - window.innerHeight / 2,
-  //         });
-  //         setAnimationStage("move");
-  //       }
-  //     }, 4000);
-
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [showLogo]);
-
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-    setIsMobileMenuOpen(false);
-  };
+  useEffect(() => {
+    setActiveSection(location.pathname === "/" ? "home" : location.pathname.slice(1));
+  }, [location.pathname]);
 
   const navItems = [
-    { name: "Home", id: "home" },
-    { name: "About", id: "about" },
-    { name: "Projects", id: "projects" },
-    { name: "Contact", id: "contact" },
+    { name: "Home", href: "/" },
+    { name: "About", href: "/about" },
+    { name: "Projects", href: "/projects" },
+    { name: "Contact", href: "/contact" },
   ];
 
   useEffect(() => {
@@ -183,24 +131,26 @@ const Header = ({ showLogo }) => {
             {/* Desktop Navigation */}
             <nav className="hidden md:flex space-x-8">
               {navItems.map((item, index) => (
-                <motion.button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className={`relative ${activeSection === item.id ? "text-primary-500" : "text-gray-700"} hover:text-primary-500 font-medium transition-colors duration-300`}
+                <motion.div
+                  key={item.href}
                   whileHover={{ y: -5 }}
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1, duration: 0.4 }}
                 >
-                  {item.name}
-                  <motion.div
-                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-primary-500 to-secondary-500"
-                    initial={{ scaleX: activeSection === item.id ? 1 : 0 }}
-                    whileHover={{ scaleX: 1 }}
-                    transition={{ duration: 0.3 }}
-                    style={{ fontSize: "50px" }}
-                  />
-                </motion.button>
+                  <Link
+                    to={item.href}
+                    className={`relative ${activeSection === item.href.slice(1) || (item.href === "/" && activeSection === "home") ? "text-primary-500" : "text-gray-700"} hover:text-primary-500 font-medium transition-colors duration-300`}
+                  >
+                    {item.name}
+                    <motion.div
+                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-primary-500 to-secondary-500"
+                      initial={{ scaleX: (activeSection === item.href.slice(1) || (item.href === "/" && activeSection === "home")) ? 1 : 0 }}
+                      whileHover={{ scaleX: 1 }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  </Link>
+                </motion.div>
               ))}
             </nav>
 
@@ -248,16 +198,20 @@ const Header = ({ showLogo }) => {
               >
                 <div className="py-4 space-y-2">
                   {navItems.map((item, index) => (
-                    <motion.button
+                    <motion.div
                       key={item.name}
-                      onClick={() => scrollToSection(item.id)}
-                      className={`block w-full text-left px-4 py-3 ${activeSection === item.id ? "text-primary-500 bg-primary-50" : "text-gray-700"} hover:text-primary-500 hover:bg-gray-50 transition-colors duration-300`}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1, duration: 0.3 }}
                     >
-                      {item.name}
-                    </motion.button>
+                      <Link
+                        to={item.href}
+                        className={`block w-full text-left px-4 py-3 ${activeSection === item.href.slice(1) || (item.href === "/" && activeSection === "home") ? "text-primary-500 bg-primary-50" : "text-gray-700"} hover:text-primary-500 hover:bg-gray-50 transition-colors duration-300`}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        {item.name}
+                      </Link>
+                    </motion.div>
                   ))}
                 </div>
               </motion.nav>

@@ -4,7 +4,7 @@ import { useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle } from 'lucide-react'
 
-const Contact = () => {
+const Contact = ({ isFullPage = false }) => {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
@@ -72,9 +72,13 @@ const Contact = () => {
     }
   ]
 
+  // Conditional styling based on context
+  const sectionClasses = isFullPage 
+    ? "min-h-screen py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-black"
+    : "section-padding bg-gray-900"
+
   return (
-    <section id="contact" className="section-padding bg-gray-900" ref={ref}>
-      {/* <section id="contact" className="section-padding bg-white z-40" ref={ref}>  */}
+    <section id={isFullPage ? undefined : "contact"} className={sectionClasses} ref={ref}>
       <div className="container">
         {/* Header */}
         <motion.div
@@ -84,21 +88,23 @@ const Contact = () => {
           transition={{ duration: 0.8 }}
         >
           <motion.h2
-            className="heading-2 mb-6"
+            className={`${isFullPage ? 'text-5xl md:text-6xl text-white mb-8' : 'heading-2 mb-6'}`}
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ delay: 0.2, duration: 0.8 }}
           >
-            Get In Touch
+            {isFullPage ? 'Get In Touch With Us' : 'Get In Touch'}
           </motion.h2>
           <motion.p
-            className="text-large max-w-3xl mx-auto"
+            className={`${isFullPage ? 'text-xl text-gray-300 max-w-4xl mx-auto' : 'text-large max-w-3xl mx-auto'}`}
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ delay: 0.4, duration: 0.8 }}
           >
-            Ready to start your next architectural project? We'd love to hear from you.
-            Let's discuss how we can bring your vision to life.
+            {isFullPage 
+              ? 'Ready to transform your architectural vision into reality? Our team of experienced architects and designers is here to guide you through every step of your project. Get in touch with us today to start your journey.'
+              : 'Ready to start your next architectural project? We\'d love to hear from you. Let\'s discuss how we can bring your vision to life.'
+            }
           </motion.p>
         </motion.div>
 
@@ -111,7 +117,7 @@ const Contact = () => {
             transition={{ duration: 0.8, ease: 'easeOut' }}
           >
             <motion.h3
-              className="heading-3"
+              className={`${isFullPage ? 'text-3xl text-white' : 'heading-3'}`}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ delay: 0.6, duration: 0.8 }}
@@ -120,13 +126,15 @@ const Contact = () => {
             </motion.h3>
 
             <motion.p
-              className="text-gray-600"
+              className={isFullPage ? 'text-gray-300 text-lg' : 'text-gray-600'}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ delay: 0.8, duration: 0.8 }}
             >
-              We're here to help you with all your architectural needs. Reach out to us
-              through any of the following channels, and we'll get back to you promptly.
+              {isFullPage 
+                ? 'We believe that great architecture starts with great communication. Whether you have a specific project in mind or simply want to explore possibilities, we\'re here to listen and help bring your vision to life.'
+                : 'We\'re here to help you with all your architectural needs. Reach out to us through any of the following channels, and we\'ll get back to you promptly.'
+              }
             </motion.p>
 
             <div className="grid sm:grid-cols-2 gap-6">
@@ -169,10 +177,10 @@ const Contact = () => {
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ delay: 0.6, duration: 0.8 }}
             >
-              Send Us a Message
+              {isFullPage ? 'Start Your Project Today' : 'Send Us a Message'}
             </motion.h3>
 
-            <form onSubmit={ e => {e.preventDefault; alert(handleSubmit); }} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
@@ -300,7 +308,7 @@ const Contact = () => {
                   </>
                 ) : (
                   <>
-                    Send Message
+                    {isFullPage ? 'Start Project Discussion' : 'Send Message'}
                     <Send className="ml-2" />
                   </>
                 )}

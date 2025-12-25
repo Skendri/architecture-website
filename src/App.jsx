@@ -40,7 +40,7 @@ function App() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowLogo(true)
-    }, 2000) // 5 seconds + 0.5s fade in
+    }, 2000) // 2 seconds + 0.5s fade in
 
     return () => clearTimeout(timer)
   }, [])
@@ -50,6 +50,7 @@ function App() {
       <Router>
         <Header showLogo={showLogo} />
         <Routes>
+          {/* Home Page - Sections */}
           <Route path="/" element={
             <AnimatePresence mode="wait">
               <motion.div
@@ -61,12 +62,14 @@ function App() {
                 transition={pageTransition}
               >
                 <Hero />
-                <About />
-                <Projects />
-                <Contact />
+                <About isFullPage={false} />
+                <Projects isFullPage={false} />
+                <Contact isFullPage={false} />
               </motion.div>
             </AnimatePresence>
           } />
+          
+          {/* About Page - Full Page */}
           <Route path="/about" element={
             <AnimatePresence mode="wait">
               <motion.div
@@ -77,10 +80,12 @@ function App() {
                 variants={pageVariants}
                 transition={pageTransition}
               >
-                <About />
+                <About isFullPage={true} />
               </motion.div>
             </AnimatePresence>
           } />
+          
+          {/* Projects Page - Full Page */}
           <Route path="/projects" element={
             <AnimatePresence mode="wait">
               <motion.div
@@ -91,10 +96,12 @@ function App() {
                 variants={pageVariants}
                 transition={pageTransition}
               >
-                <Projects />
+                <Projects isFullPage={true} />
               </motion.div>
             </AnimatePresence>
           } />
+          
+          {/* Contact Page - Full Page */}
           <Route path="/contact" element={
             <AnimatePresence mode="wait">
               <motion.div
@@ -105,7 +112,7 @@ function App() {
                 variants={pageVariants}
                 transition={pageTransition}
               >
-                <Contact />
+                <Contact isFullPage={true} />
               </motion.div>
             </AnimatePresence>
           } />

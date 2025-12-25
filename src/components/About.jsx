@@ -4,7 +4,7 @@ import { useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { Award, Users, Building, Lightbulb } from 'lucide-react'
 
-const About = ({ isFullPage = false }) => {
+const About = () => {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
@@ -41,15 +41,10 @@ const About = ({ isFullPage = false }) => {
     { number: '25+', label: 'Awards Won' }
   ]
 
-  // Conditional styling based on context
-  const sectionClasses = isFullPage 
-    ? "min-h-screen flex items-center bg-gradient-to-br from-gray-900 via-gray-800 to-black"
-    : "section-padding bg relative"
-
   return (
-    <section id={isFullPage ? undefined : "about"} className={sectionClasses} ref={ref}>
-      {!isFullPage && <div className="absolute inset-0 bg-black/40 z-0"></div>}
-      <div className={`container ${!isFullPage ? 'relative z-0' : ''}`}>
+    <section id="about" className="section-padding bg relative" ref={ref}>
+      <div className="absolute inset-0 bg-black/40 z-0"></div>
+      <div className="container relative z-0">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Text Content */}
           <motion.div
@@ -59,21 +54,21 @@ const About = ({ isFullPage = false }) => {
             transition={{ duration: 1.2, ease: 'easeInOut' }}
           >
             <motion.h2
-              className={`${isFullPage ? 'text-5xl md:text-6xl' : 'heading-2'}`}
+              className="heading-2"
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ delay: 0.3, duration: 1.0, ease: 'easeInOut' }}
-              style={{color: isFullPage ? 'white' : 'whitesmoke'}}
+              style={{color: 'whitesmoke'}}
             >
-              {isFullPage ? 'About ArchStudio' : 'About Our Studio'}
+              About Our Studio
             </motion.h2>
 
             <motion.p
-              className={`${isFullPage ? 'text-xl text-gray-300' : 'text-large'}`}
+              className="text-large"
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ delay: 0.6, duration: 1.0, ease: 'easeInOut' }}
-              style={{color: isFullPage ? '#e5e5e5' : 'whitesmoke'}}
+              style={{color: 'whitesmoke'}}
             >
               Founded in 2010, ArchStudio has been at the forefront of modern architectural
               design. We specialize in creating spaces that not only meet functional requirements
@@ -82,11 +77,11 @@ const About = ({ isFullPage = false }) => {
             </motion.p>
 
             <motion.p
-              className={isFullPage ? 'text-lg text-gray-400' : 'text-gray-600'}
+              className="text-gray-600"
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ delay: 0.9, duration: 1.0, ease: 'easeInOut' }}
-              style={{color: isFullPage ? '#d1d5db' : 'whitesmoke'}}
+              style={{color: 'whitesmoke'}}
             >
               We believe that great architecture should be accessible, sustainable, and beautiful.
               Our approach combines innovative design thinking with practical solutions, ensuring
@@ -118,7 +113,7 @@ const About = ({ isFullPage = false }) => {
                   >
                     {stat.number}
                   </motion.h3>
-                  <p className={isFullPage ? 'text-gray-400 font-medium' : 'text-gray-600 font-medium'}>{stat.label}</p>
+                  <p className="text-gray-600 font-medium">{stat.label}</p>
                 </motion.div>
               ))}
             </motion.div>

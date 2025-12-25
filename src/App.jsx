@@ -5,6 +5,9 @@ import About from './components/About'
 import Projects from './components/Projects'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
+import AboutPage from './components/AboutPage'
+import ProjectsPage from './components/ProjectsPage'
+import ContactPage from './components/ContactPage'
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from 'framer-motion'
 
@@ -80,7 +83,7 @@ function App() {
                 variants={pageVariants}
                 transition={pageTransition}
               >
-                <About isFullPage={true} />
+                <AboutPage />
               </motion.div>
             </AnimatePresence>
           } />
@@ -96,7 +99,7 @@ function App() {
                 variants={pageVariants}
                 transition={pageTransition}
               >
-                <Projects isFullPage={true} />
+                <ProjectsPage />
               </motion.div>
             </AnimatePresence>
           } />
@@ -112,7 +115,7 @@ function App() {
                 variants={pageVariants}
                 transition={pageTransition}
               >
-                <Contact isFullPage={true} />
+                <ContactPage />
               </motion.div>
             </AnimatePresence>
           } />

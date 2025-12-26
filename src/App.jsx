@@ -65,9 +65,9 @@ function App() {
                 transition={pageTransition}
               >
                 <Hero />
-                <About isFullPage={false} />
-                <Projects isFullPage={false} />
-                <Contact isFullPage={false} />
+                <About />
+                <Projects />
+                <Contact />
               </motion.div>
             </AnimatePresence>
           } />

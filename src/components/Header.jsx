@@ -33,6 +33,7 @@ const Header = ({ showLogo }) => {
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
     { name: "Projects", href: "/projects" },
+    { name: "Parallax", href: "/parallax" },
     { name: "Contact", href: "/contact" },
   ];
 
@@ -52,63 +53,63 @@ const Header = ({ showLogo }) => {
 
   return (
     <>
-        {/* 🔹 Centered animated logo (appears first) */}
-        {showLogo && (
-          <motion.h1
-            initial={{ opacity: 0, scale: 0.85, filter: "blur(10px)", x: -175, y: 0 }}
-            animate={
-              animationStage === "fadeIn"
-                ? {
-                    opacity: [0, 1],
-                    scale: [0.85, 1.02, 1],
-                    filter: ["blur(10px)", "blur(2px)", "blur(0px)"],
-                  }
-                : {
-                    x: targetPos.x,
-                    y: targetPos.y,
-                    scale: 0.45,
-                    opacity: 0,
-                    filter: "blur(20px)", // blur while leaving
-                  }
-            }
-            transition={{
-              duration: animationStage === "fadeIn" ? 1.6 : 1.8,
-              ease: "easeInOut",
-            }}
-            className="fixed top-1/2 left-1/2 z-40 -translate-x-1/2 -translate-y-1/2 text-7xl font-bold text-indigo-400"
-          >
-            ArchStudio
-          </motion.h1>
-        )}
+      {/* 🔹 Centered animated logo (appears first) */}
+      {showLogo && (
+        <motion.h1
+          initial={{ opacity: 0, scale: 0.85, filter: "blur(10px)", x: -175, y: 0 }}
+          animate={
+            animationStage === "fadeIn"
+              ? {
+                opacity: [0, 1],
+                scale: [0.85, 1.02, 1],
+                filter: ["blur(10px)", "blur(2px)", "blur(0px)"],
+              }
+              : {
+                x: targetPos.x,
+                y: targetPos.y,
+                scale: 0.45,
+                opacity: 0,
+                filter: "blur(20px)", // blur while leaving
+              }
+          }
+          transition={{
+            duration: animationStage === "fadeIn" ? 1.6 : 1.8,
+            ease: "easeInOut",
+          }}
+          className="fixed top-1/2 left-1/2 z-40 -translate-x-1/2 -translate-y-1/2 text-7xl font-bold text-indigo-400"
+        >
+          ArchStudio
+        </motion.h1>
+      )}
 
-        {/* 🔹 Centered animated logo child (appears first) */}
-        {showLogo && (
-          <motion.h1
-            initial={{ opacity: 0, scale: 0.8, filter: "blur(12px)", x: -285 , y: 65 }}
-            animate={
-              animationStage === "fadeIn"
-                ? {
-                    opacity: [0, 1],
-                    scale: [0.8, 1],
-                    filter: ["blur(12px)", "blur(0px)"],
-                  }
-                : {
-                    opacity: 0,
-                    scale: 0.6,
-                    filter: "blur(20px)",
-                  }
-            }
-            transition={{
-              duration: 2.2,
-              delay: 0.4, // ➜ DELAY mes logos & sloganit
-              ease: "easeOut",
-            }}
-            className="fixed top-1/2 left-1/2 z-40 text-4xl font-bold text-green-900"
-          >
-            Designing Tomorrow's{" "}
-            <span className="gradient-text">Architecture</span>
-          </motion.h1>
-        )}
+      {/* 🔹 Centered animated logo child (appears first) */}
+      {showLogo && (
+        <motion.h1
+          initial={{ opacity: 0, scale: 0.8, filter: "blur(12px)", x: -285, y: 65 }}
+          animate={
+            animationStage === "fadeIn"
+              ? {
+                opacity: [0, 1],
+                scale: [0.8, 1],
+                filter: ["blur(12px)", "blur(0px)"],
+              }
+              : {
+                opacity: 0,
+                scale: 0.6,
+                filter: "blur(20px)",
+              }
+          }
+          transition={{
+            duration: 2.2,
+            delay: 0.4, // ➜ DELAY mes logos & sloganit
+            ease: "easeOut",
+          }}
+          className="fixed top-1/2 left-1/2 z-40 text-4xl font-bold text-green-900"
+        >
+          Designing Tomorrow's{" "}
+          <span className="gradient-text">Architecture</span>
+        </motion.h1>
+      )}
 
       {/* 🔹 start NAVBAR  */}
       <motion.header

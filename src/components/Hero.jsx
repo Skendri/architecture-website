@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight, Sparkles } from 'lucide-react'
 
-const Hero = () => {
+const Hero = ({showLogo}) => {
   const heroRef = useRef(null)
 
   const scrollToProjects = () => {
@@ -60,7 +60,7 @@ const Hero = () => {
             className="space-y-8"
             initial={{ opacity: 0, x: -50 }}  // 👈 starting position
             animate={{ opacity: 1, x: 0 }}  // 👈 animate to normal position
-            transition={{ delay: 7, duration: 1.5, ease: 'easeInOut' }}  // 👈 smooth animation
+            transition={ !showLogo ? { delay: 7, duration: 1.5, ease: 'easeInOut'} : {delay: 1} }  // 👈 smooth animation
             style={{zIndex: 1, maxWidth: '100rem', gap: '7rem'}}
           >
             <motion.h1
@@ -127,10 +127,10 @@ const Hero = () => {
             className="relative h-96 lg:h-[500px]"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 7, duration: 1.0, ease: 'easeInOut' }}
+            transition={ !showLogo ? {delay: 7, duration: 1.0, ease: 'easeInOut'} : {delay: 1} }
           >
             <div className="absolute inset-0 bg-gradient-to-br from-primary-500  rounded-3xl flex items-center justify-center text-white text-6xl">
-              🏢
+              
             </div> 
             {/* to-secondary-500 */}
 

@@ -60,7 +60,7 @@ const Header = ({ showLogo }) => {
               animationStage === "fadeIn"
                 ? {
                     opacity: [0, 1],
-                    scale: [0.85, 1.02, 1], // pirate wobble
+                    scale: [0.85, 1.02, 1],
                     filter: ["blur(10px)", "blur(2px)", "blur(0px)"],
                   }
                 : {

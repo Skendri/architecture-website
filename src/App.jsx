@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, useLocation, } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -9,13 +11,7 @@ import AboutPage from "./components/AboutPage";
 import ProjectsPage from "./components/ProjectsPage";
 import Parallax from "./components/Parallax";
 import ContactPage from "./components/ContactPage";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useLocation,
-} from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
+
 
 const pageVariants = {
   initial: {
@@ -42,20 +38,19 @@ const pageTransition = {
 };
 
 function App() {
-  const [showLogo, setShowLogo] = useState(false);
+    const [showLogo, setShowLogo] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowLogo(true);
-    }, 2000); // 2 seconds + 0.5s fade in
-
-    return () => clearTimeout(timer);
-  }, []);
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        setShowLogo(true);
+      }, 2000); // 2 seconds + 0.5s fade in
+      return () => clearTimeout(timer);
+    }, []);
 
   return (
     <div className="App">
       <Router>
-        <Header showLogo={showLogo} />
+        <Header showLogo={showLogo}/>
         <Routes>
           {/* Home Page - Sections */}
           <Route

@@ -133,11 +133,9 @@ const About = () => {
                 initial={{ opacity: 0, y: 50, scale: 0.8 }}
                 animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 50, scale: 0.8 }}
                 transition={{ delay: 1.2 + index * 0.2, duration: 1.0, ease: 'easeInOut' }}
-                whileHover={{
-                  y: -10,
-                  transition: { duration: 0.5, ease: 'easeInOut' }
-                }}
+                whileHover={{ y: -10, transition: { duration: 0.5, ease: 'easeInOut' } }}
               >
+
                 <motion.div
                   className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-r ${feature.color} flex items-center justify-center text-white`}
                   whileHover={{ rotate: 360, transition: { duration: 1.0, ease: 'easeInOut' } }}

@@ -1,24 +1,26 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, easeInOut } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
-const Header = ({ showLogo }) => {
+const Header = ({showLogo}) => {
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const [activeSection, setActiveSection] = useState(location.pathname === "/" ? "home" : location.pathname.slice(1));
+  const [activeSection, setActiveSection] = useState(
+    location.pathname === "/" ? "home" : location.pathname.slice(1),
+  );
 
   const [animationStage, setAnimationStage] = useState("fadeIn");
   const [targetPos, setTargetPos] = useState({ x: -200, y: -800 });
 
-  const centerRef = useRef(null);
-
   const headerLogoRef = useRef(null);
 
+  // Calculate target position for header animation background to white
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 850);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -26,7 +28,9 @@ const Header = ({ showLogo }) => {
   }, []);
 
   useEffect(() => {
-    setActiveSection(location.pathname === "/" ? "home" : location.pathname.slice(1));
+    setActiveSection(
+      location.pathname === "/" ? "home" : location.pathname.slice(1),
+    );
   }, [location.pathname]);
 
   const navItems = [
@@ -39,11 +43,9 @@ const Header = ({ showLogo }) => {
 
   useEffect(() => {
     if (!showLogo) return;
-
     // faza 1: fade in
     setAnimationStage("fadeIn");
-
-    // faza 2: pas 2 sekondash zhvendosja
+    // faza 2: pas 4 sekondash zhvendosja
     const timer = setTimeout(() => {
       setAnimationStage("moveLogo");
     }, 4000);
@@ -56,21 +58,27 @@ const Header = ({ showLogo }) => {
       {/* 🔹 Centered animated logo (appears first) */}
       {showLogo && (
         <motion.h1
-          initial={{ opacity: 0, scale: 0.85, filter: "blur(10px)", x: -175, y: 0 }}
+          initial={{
+            opacity: 0,
+            scale: 0.85,
+            filter: "blur(10px)",
+            x: -200,
+            y: 0,
+          }}
           animate={
             animationStage === "fadeIn"
               ? {
-                opacity: [0, 1],
-                scale: [0.85, 1.02, 1],
-                filter: ["blur(10px)", "blur(2px)", "blur(0px)"],
-              }
+                  opacity: [0, 1],
+                  scale: [0.85, 1.02, 1],
+                  filter: ["blur(10px)", "blur(2px)", "blur(0px)"],
+                }
               : {
-                x: targetPos.x,
-                y: targetPos.y,
-                scale: 0.45,
-                opacity: 0,
-                filter: "blur(20px)", // blur while leaving
-              }
+                  x: targetPos.x,
+                  y: targetPos.y,
+                  scale: 0.45,
+                  opacity: 0,
+                  filter: "blur(20px)", // blur while leaving
+                }
           }
           transition={{
             duration: animationStage === "fadeIn" ? 1.6 : 1.8,
@@ -82,22 +90,28 @@ const Header = ({ showLogo }) => {
         </motion.h1>
       )}
 
-      {/* 🔹 Centered animated logo child (appears first) */}
+      {/* 🔹 Centered animated Paragraph child (appears second) */}
       {showLogo && (
         <motion.h1
-          initial={{ opacity: 0, scale: 0.8, filter: "blur(12px)", x: -285, y: 65 }}
+          initial={{
+            opacity: 0,
+            scale: 0.8,
+            filter: "blur(12px)",
+            x: -290,
+            y: 65,
+          }}
           animate={
             animationStage === "fadeIn"
               ? {
-                opacity: [0, 1],
-                scale: [0.8, 1],
-                filter: ["blur(12px)", "blur(0px)"],
-              }
+                  opacity: [0, 1],
+                  scale: [0.8, 1],
+                  filter: ["blur(12px)", "blur(0px)"],
+                }
               : {
-                opacity: 0,
-                scale: 0.6,
-                filter: "blur(20px)",
-              }
+                  opacity: 0,
+                  scale: 0.6,
+                  filter: "blur(20px)",
+                }
           }
           transition={{
             duration: 2.2,
@@ -146,7 +160,13 @@ const Header = ({ showLogo }) => {
                     {item.name}
                     <motion.div
                       className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-primary-500 to-secondary-500"
-                      initial={{ scaleX: (activeSection === item.href.slice(1) || (item.href === "/" && activeSection === "home")) ? 1 : 0 }}
+                      initial={{
+                        scaleX:
+                          activeSection === item.href.slice(1) ||
+                          (item.href === "/" && activeSection === "home")
+                            ? 1
+                            : 0,
+                      }}
                       whileHover={{ scaleX: 1 }}
                       transition={{ duration: 0.3 }}
                     />

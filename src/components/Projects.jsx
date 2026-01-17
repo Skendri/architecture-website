@@ -113,15 +113,19 @@ const Projects = ({ isFullPage = false }) => {
 
         {/* Projects Grid */}
         <motion.div
-          className={`grid md:grid-cols-2 lg:grid-cols-3 gap-8 ${isFullPage ? 'mb-20' : 'mb-16'}`}
+          className={`grid grid-cols-1 md:grid-cols-2 gap-8 ${isFullPage ? 'mb-20' : 'mb-16'}`}
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ delay: 0.9, duration: 1.0, ease: 'easeInOut' }}
         >
-          {projects.map((project, index) => (
+          {projects.map((project, index) => {
+            // Pattern: full-width, 2 cards, full-width, 2 cards...
+            const shouldBeFullWidth = index % 3 === 0
+            
+            return (
             <motion.div
               key={project.id}
-              className="card overflow-hidden group cursor-pointer"
+              className={`card overflow-hidden group cursor-pointer ${shouldBeFullWidth ? 'md:col-span-2' : ''}`}
               initial={{ opacity: 0, y: 50, scale: 0.8 }}
               animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 50, scale: 0.8 }}
               transition={{ delay: 1.2 + index * 0.15, duration: 1.0, ease: 'easeInOut' }}
@@ -202,7 +206,8 @@ const Projects = ({ isFullPage = false }) => {
                 </motion.button>
               </div>
             </motion.div>
-          ))}
+            )
+          })}
         </motion.div>
 
         {/* CTA Section - only show on section page */}

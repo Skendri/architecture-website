@@ -379,7 +379,7 @@ const Parallax = () => {
           transition={{ duration: 0.8 }}
         >
           <h2 className="text-6xl md:text-8xl font-serif font-light mb-8">Contact</h2>
-          <p className="text-xl md:text-2xl mb-12 text-white/90 max-w-2xl mx-auto">
+          <p className="text-xl md:text-2xl mb-12 text-black/90 max-w-2xl mx-auto">
             Let's discuss how we can bring your architectural vision to life.
             Get in touch to start your project.
           </p>

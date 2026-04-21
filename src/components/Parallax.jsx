@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 
-const Parallax = () => {
+const Parallax = ({showLogo}) => {
   const [scrollY, setScrollY] = useState(0)
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isScrolled, setIsScrolled] = useState(false)
@@ -38,6 +38,27 @@ const Parallax = () => {
     }
   ]
 
+    const floatingCards = [
+    {
+      icon: "🏗️",
+      title: "Modern Design",
+      description: "Sustainable architecture",
+      delay: 0,
+    },
+    {
+      icon: "✨",
+      title: "Innovation",
+      description: "Cutting-edge solutions",
+      delay: 0.5,
+    },
+    {
+      icon: "🏆",
+      title: "Excellence",
+      description: "Award-winning projects",
+      delay: 1,
+    },
+  ];
+
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY)
@@ -58,50 +79,7 @@ const Parallax = () => {
   const logoOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1])
   const logoY = useTransform(scrollYProgress, [0, 0.3], [50, 0])
 
-  const works = [
-    {
-      id: 1,
-      title: "Residential Complex",
-      image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
-      area: "660㎡",
-      year: "2023"
-    },
-    {
-      id: 2,
-      title: "Corporate Office",
-      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80",
-      area: "396㎡",
-      year: "2024"
-    },
-    {
-      id: 3,
-      title: "Cultural Center",
-      image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&q=80",
-      area: "661㎡",
-      year: "2024"
-    },
-    {
-      id: 4,
-      title: "Mixed-Use Development",
-      image: "https://images.unsplash.com/photo-1497215842964-222b430dc094?w=800&q=80",
-      area: "1322㎡",
-      year: "2024"
-    },
-    {
-      id: 5,
-      title: "Luxury Hotel",
-      image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80",
-      area: "363㎡",
-      year: "2022"
-    },
-    {
-      id: 6,
-      title: "Innovation Hub",
-      image: "https://images.unsplash.com/photo-1600607687644-c7171b42498b?w=800&q=80",
-      area: "3206㎡",
-      year: "2024"
-    }
-  ]
+
 
   return (
     <div ref={containerRef} className="relative overflow-hidden bg-white">
@@ -221,77 +199,60 @@ const Parallax = () => {
       <div className="h-[80vh] md:h-[60vh]" />
 
       {/* Works Section - Grid Layout */}
-      <section className="relative py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="mb-16">
-            <h2 className="text-4xl md:text-6xl font-serif font-light mb-4">Works</h2>
-            <p className="text-gray-600 max-w-2xl">
-              A collection of our recent architectural projects showcasing innovation and design excellence.
-            </p>
-          </div>
+          {/* Floating Cards */}
+          <motion.div
+            className="relative h-80 sm:h-96 lg:h-[500px]"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={
+              !showLogo
+                ? { delay: 7, duration: 1.0, ease: "easeInOut" }
+                : { delay: 1 }
+            }
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-primary-500  rounded-3xl flex items-center justify-center text-white text-6xl"></div>
+            {/* to-secondary-500 */}
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {works.map((work, index) => (
+            {floatingCards.map((card, index) => (
               <motion.div
-                key={work.id}
-                className="group cursor-pointer"
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ delay: index * 0.1, duration: 0.6 }}
+                key={index}
+                className="absolute bg-white rounded-2xl p-6 shadow-xl"
                 style={{
-                  transform: `translateY(${getParallaxOffset(0.1 + index * 0.02)}px)`,
+                  top: `${20 + index * 25}%`,
+                  right: index % 2 === 0 ? "-10%" : "10%",
+                  left: index % 2 === 1 ? "-10%" : "auto",
+                }}
+                initial={{ opacity: 0, y: 50, scale: 0.8 }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                  scale: 1,
+                  rotate: [0, 5, -5, 0],
+                }}
+                transition={{
+                  delay: 1.5 + card.delay,
+                  duration: 1.0,
+                  ease: "easeInOut",
+                  rotate: {
+                    duration: 6,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  },
+                }}
+                whileHover={{
+                  scale: 1.1,
+                  rotate: 0,
+                  transition: { duration: 0.5, ease: "easeInOut" },
                 }}
               >
-                <div className="relative aspect-[4/3] overflow-hidden mb-4 bg-gray-200">
-                  <motion.img
-                    src={work.image}
-                    alt={work.title}
-                    className="w-full h-full object-cover"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.6 }}
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300" />
-                </div>
-                <h3 className="text-xl font-serif mb-2">{work.title}</h3>
-                <div className="flex gap-4 text-sm text-gray-600">
-                  <span>Area: {work.area}</span>
-                  <span>Year: {work.year}</span>
-                </div>
+                <div className="text-3xl mb-3">{card.icon}</div>
+                <h3 className="font-semibold text-gray-900 mb-1">
+                  {card.title}
+                </h3>
+                <p className="text-sm text-gray-600">{card.description}</p>
               </motion.div>
             ))}
-          </div>
-
-          {/* See All Works Link */}
-          <motion.div
-            className="mt-20 text-center"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5 }}
-          >
-            <a
-              href="#"
-              className="inline-flex items-center gap-2 text-lg font-light text-black hover:gap-4 transition-all duration-300"
-            >
-              See All Works
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-                />
-              </svg>
-            </a>
           </motion.div>
-        </div>
-      </section>
 
       {/* About Section */}
       <section className="relative py-32 bg-gray-50">

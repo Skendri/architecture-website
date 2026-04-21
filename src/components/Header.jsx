@@ -8,9 +8,7 @@ const Header = ({showLogo}) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const [activeSection, setActiveSection] = useState(
-    location.pathname === "/" ? "home" : location.pathname.slice(1),
-  );
+  const [activeSection, setActiveSection] = useState(location.pathname === "/" ? "home" : location.pathname.slice(1),);
 
   const [animationStage, setAnimationStage] = useState("fadeIn");
   const [targetPos, setTargetPos] = useState({ x: -200, y: -800 });
@@ -20,7 +18,7 @@ const Header = ({showLogo}) => {
   // Calculate target position for header animation background to white
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 850);
+      setIsScrolled(window.scrollY > 550);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -45,10 +43,11 @@ const Header = ({showLogo}) => {
     if (!showLogo) return;
     // faza 1: fade in
     setAnimationStage("fadeIn");
+
     // faza 2: pas 4 sekondash zhvendosja
-    const timer = setTimeout(() => {
-      setAnimationStage("moveLogo");
-    }, 4000);
+    // const timer = setTimeout(() => {
+    //   setAnimationStage("moveLogo");
+    // }, 4000);
 
     return () => clearTimeout(timer);
   }, [showLogo]);
@@ -62,8 +61,8 @@ const Header = ({showLogo}) => {
             opacity: 0,
             scale: 0.85,
             filter: "blur(10px)",
-            x: -200,
-            y: 0,
+            x: "-10vw",
+            y: "0vh",
           }}
           animate={
             animationStage === "fadeIn"
@@ -84,7 +83,11 @@ const Header = ({showLogo}) => {
             duration: animationStage === "fadeIn" ? 1.6 : 1.8,
             ease: "easeInOut",
           }}
-          className="fixed top-1/2 left-1/2 z-40 -translate-x-1/2 -translate-y-1/2 text-7xl font-bold text-indigo-400"
+            className="fixed top-1/2 left-1/2 z-40 
+             -translate-x-1/2 -translate-y-1/2 
+             text-3xl sm:text-5xl md:text-6xl lg:text-7xl 
+             font-bold text-indigo-400 
+             text-center max-w-[100vw]"
         >
           ArchStudio
         </motion.h1>
@@ -97,8 +100,8 @@ const Header = ({showLogo}) => {
             opacity: 0,
             scale: 0.8,
             filter: "blur(12px)",
-            x: -290,
-            y: 65,
+            x: "-15vw",
+            y: "10vh",
           }}
           animate={
             animationStage === "fadeIn"
@@ -118,7 +121,7 @@ const Header = ({showLogo}) => {
             delay: 0.4, // ➜ DELAY mes logos & sloganit
             ease: "easeOut",
           }}
-          className="fixed top-1/2 left-1/2 z-40 text-4xl font-bold text-green-900"
+          className="fixed top-1/2 left-1/2 z-40 font-bold text-green-900 text-2xl sm:text-1xl md:text-2xl lg:text-3xl "
         >
           Designing Tomorrow's{" "}
           <span className="gradient-text">Architecture</span>
@@ -127,7 +130,7 @@ const Header = ({showLogo}) => {
 
       {/* 🔹 start NAVBAR  */}
       <motion.header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200" : "bg-transparent"}`}
+        className={`fixed top-0 left-0 right-0 z-50 px-3 transition-all duration-300 sm:px-3 ${isScrolled ? "bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200" : "bg-transparent"}`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ delay: 6.5, duration: 0.6, ease: "easeOut" }}
@@ -177,7 +180,7 @@ const Header = ({showLogo}) => {
 
             {/* Mobile Menu Button */}
             <motion.button
-              className="md:hidden p-2"
+              className="md:hidden p-2 color-white"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               whileTap={{ scale: 0.95 }}
             >
@@ -200,7 +203,7 @@ const Header = ({showLogo}) => {
                     exit={{ rotate: -90, opacity: 0 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <Menu size={24} />
+                    <Menu color="white" size={24} />
                   </motion.div>
                 )}
               </AnimatePresence>

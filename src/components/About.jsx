@@ -143,8 +143,8 @@ const About = () => {
                 >
                   <feature.icon size={32} />
                 </motion.div>
-                <h3 className="heading-3 mb-3">{feature.title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">{feature.description}</p>
+                <h3 className=" sm:heading-3 mb-3">{feature.title}</h3>
+                <p className="hidden sm:inline text-gray-600 text-sm leading-relaxed">{feature.description}</p>
               </motion.div>
             ))}
           </motion.div>

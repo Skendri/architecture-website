@@ -19,26 +19,7 @@ const Hero = ({ showLogo }) => {
     }
   };
 
-  const floatingCards = [
-    {
-      icon: "🏗️",
-      title: "Modern Design",
-      description: "Sustainable architecture",
-      delay: 0,
-    },
-    {
-      icon: "✨",
-      title: "Innovation",
-      description: "Cutting-edge solutions",
-      delay: 0.5,
-    },
-    {
-      icon: "🏆",
-      title: "Excellence",
-      description: "Award-winning projects",
-      delay: 1,
-    },
-  ];
+
 
   return (
     <section
@@ -60,7 +41,7 @@ const Hero = ({ showLogo }) => {
       <div className="absolute inset-0 bg-black/40 z-0"></div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-8 items-center">
           {/* Text Content */}
           <motion.div
             className="space-y-8"
@@ -71,7 +52,7 @@ const Hero = ({ showLogo }) => {
                 ? { delay: 7, duration: 1.5, ease: "easeInOut" }
                 : { delay: 1 }
             } // 👈 smooth animation
-            style={{ zIndex: 1, maxWidth: "100rem", gap: "7rem" }}
+            style={{ zIndex: 1, maxWidth: "30rem", gap: "7rem" }}
           >
             <motion.h1
               className="heading-1 text-green-900"
@@ -84,7 +65,7 @@ const Hero = ({ showLogo }) => {
             </motion.h1>
 
             <motion.p
-              className="text-large max-w-sm sm:max-w-lg lg:max-w-2xl"
+              className="hidden sm:inline text-medium max-w-sm sm:max-w-lg lg:max-w-2xl"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 1.0, ease: "easeInOut" }}
@@ -114,7 +95,7 @@ const Hero = ({ showLogo }) => {
 
               <motion.button
                 onClick={scrollToContact}
-                className="btn btn-outline group"
+                className="btn group"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -124,60 +105,7 @@ const Hero = ({ showLogo }) => {
             </motion.div>
           </motion.div>
 
-          {/* Floating Cards */}
-          <motion.div
-            className="relative h-80 sm:h-96 lg:h-[500px]"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={
-              !showLogo
-                ? { delay: 7, duration: 1.0, ease: "easeInOut" }
-                : { delay: 1 }
-            }
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-primary-500  rounded-3xl flex items-center justify-center text-white text-6xl"></div>
-            {/* to-secondary-500 */}
 
-            {floatingCards.map((card, index) => (
-              <motion.div
-                key={index}
-                className="absolute bg-white rounded-2xl p-6 shadow-xl"
-                style={{
-                  top: `${20 + index * 25}%`,
-                  right: index % 2 === 0 ? "-10%" : "10%",
-                  left: index % 2 === 1 ? "-10%" : "auto",
-                }}
-                initial={{ opacity: 0, y: 50, scale: 0.8 }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                  scale: 1,
-                  rotate: [0, 5, -5, 0],
-                }}
-                transition={{
-                  delay: 1.5 + card.delay,
-                  duration: 1.0,
-                  ease: "easeInOut",
-                  rotate: {
-                    duration: 6,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  },
-                }}
-                whileHover={{
-                  scale: 1.1,
-                  rotate: 0,
-                  transition: { duration: 0.5, ease: "easeInOut" },
-                }}
-              >
-                <div className="text-3xl mb-3">{card.icon}</div>
-                <h3 className="font-semibold text-gray-900 mb-1">
-                  {card.title}
-                </h3>
-                <p className="text-sm text-gray-600">{card.description}</p>
-              </motion.div>
-            ))}
-          </motion.div>
         </div>
       </div>
     </section>

@@ -3,12 +3,13 @@ import { motion, AnimatePresence, easeInOut } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
-const Header = ({showLogo}) => {
-
+const Header = ({ showLogo }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const [activeSection, setActiveSection] = useState(location.pathname === "/" ? "home" : location.pathname.slice(1),);
+  const [activeSection, setActiveSection] = useState(
+    location.pathname === "/" ? "home" : location.pathname.slice(1),
+  );
 
   const [animationStage, setAnimationStage] = useState("fadeIn");
   const [targetPos, setTargetPos] = useState({ x: -200, y: -800 });
@@ -18,7 +19,7 @@ const Header = ({showLogo}) => {
   // Calculate target position for header animation background to white
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 550);
+      setIsScrolled(window.scrollY > 450);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -45,89 +46,65 @@ const Header = ({showLogo}) => {
     setAnimationStage("fadeIn");
 
     // faza 2: pas 4 sekondash zhvendosja
-    // const timer = setTimeout(() => {
-    //   setAnimationStage("moveLogo");
-    // }, 4000);
+    const timer = setTimeout(() => {
+      setAnimationStage("moveLogo");
+    }, 4000);
 
     return () => clearTimeout(timer);
   }, [showLogo]);
 
   return (
     <>
-      {/* 🔹 Centered animated logo (appears first) */}
-      {showLogo && (
-        <motion.h1
-          initial={{
-            opacity: 0,
-            scale: 0.85,
-            filter: "blur(10px)",
-            x: "-10vw",
-            y: "0vh",
-          }}
-          animate={
-            animationStage === "fadeIn"
-              ? {
-                  opacity: [0, 1],
-                  scale: [0.85, 1.02, 1],
-                  filter: ["blur(10px)", "blur(2px)", "blur(0px)"],
-                }
-              : {
-                  x: targetPos.x,
-                  y: targetPos.y,
-                  scale: 0.45,
-                  opacity: 0,
-                  filter: "blur(20px)", // blur while leaving
-                }
-          }
-          transition={{
-            duration: animationStage === "fadeIn" ? 1.6 : 1.8,
-            ease: "easeInOut",
-          }}
-            className="fixed top-1/2 left-1/2 z-40 
-             -translate-x-1/2 -translate-y-1/2 
-             text-3xl sm:text-5xl md:text-6xl lg:text-7xl 
-             font-bold text-indigo-400 
-             text-center max-w-[100vw]"
-        >
-          ArchStudio
-        </motion.h1>
-      )}
-
-      {/* 🔹 Centered animated Paragraph child (appears second) */}
-      {showLogo && (
-        <motion.h1
-          initial={{
-            opacity: 0,
-            scale: 0.8,
-            filter: "blur(12px)",
-            x: "-15vw",
-            y: "10vh",
-          }}
-          animate={
-            animationStage === "fadeIn"
-              ? {
-                  opacity: [0, 1],
-                  scale: [0.8, 1],
-                  filter: ["blur(12px)", "blur(0px)"],
-                }
-              : {
-                  opacity: 0,
-                  scale: 0.6,
-                  filter: "blur(20px)",
-                }
-          }
-          transition={{
-            duration: 2.2,
-            delay: 0.4, // ➜ DELAY mes logos & sloganit
-            ease: "easeOut",
-          }}
-          className="fixed top-1/2 left-1/2 z-40 font-bold text-green-900 text-2xl sm:text-1xl md:text-2xl lg:text-3xl "
-        >
-          Designing Tomorrow's{" "}
-          <span className="gradient-text">Architecture</span>
-        </motion.h1>
-      )}
-
+      <div className="fixed z-40 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div>
+          <AnimatePresence>
+            {showLogo && (
+              <div className="flex flex-col items-center text-center gap-3">
+                {/* 🔹 Logo */}
+                <motion.h1
+                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                  animate={
+                    animationStage === "fadeIn"
+                      ? { opacity: 1, y: 0, scale: 1 }
+                      : {
+                          x: targetPos.x,
+                          y: targetPos.y,
+                          scale: 0.4,
+                          opacity: 0,
+                        }
+                  }
+                  transition={{
+                    duration: animationStage === "fadeIn" ? 0.8 : 1.5,
+                    ease: "easeInOut",
+                  }}
+                  className="z-40 text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-bold text-indigo-400">
+                  ArchStudio
+                </motion.h1>
+                {/* 🔹 Subtitle */}
+                <motion.h2
+                  initial={{ opacity: 0, y: 25 }}
+                  animate={
+                    animationStage === "fadeIn"
+                      ? { opacity: 1, y: 0 }
+                      : {
+                          opacity: 0,
+                          y: 20,
+                        }
+                  }
+                  transition={{
+                    duration: 0.9,
+                    delay: animationStage === "fadeIn" ? 0.3 : 0,
+                    ease: "easeInOut",
+                  }}
+                  className="z-40 text-sm sm:text-base md:text-lg lg:text-xl font-medium text-green-900">
+                  Designing Tomorrow's{" "}
+                  <span className="gradient-text">Architecture</span>
+                </motion.h2>
+              </div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
       {/* 🔹 start NAVBAR  */}
       <motion.header
         className={`fixed top-0 left-0 right-0 z-50 px-3 transition-all duration-300 sm:px-3 ${isScrolled ? "bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200" : "bg-transparent"}`}

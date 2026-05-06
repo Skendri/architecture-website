@@ -1,9 +1,80 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
-import { useRef } from 'react'
-import { ExternalLink, ArrowRight } from 'lucide-react'
+import { useRef, useState, useEffect } from 'react'
+import { ExternalLink, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
+import split1 from '../images/split_1.png'
+import split2 from '../images/split_2.png'
+import split3 from '../images/split_3.png'
+import split4 from '../images/split_4.png'
 // import bgImage from '../images/firstFlor.png'
+
+const projectCarouselSlides = [split1, split2, split3, split4]
+
+const ProjectHeroCarousel = () => {
+  const [index, setIndex] = useState(0)
+
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setIndex((i) => (i + 1) % projectCarouselSlides.length)
+    }, 4500)
+    return () => window.clearInterval(id)
+  }, [])
+
+  const prev = () => setIndex((i) => (i - 1 + projectCarouselSlides.length) % projectCarouselSlides.length)
+  const next = () => setIndex((i) => (i + 1) % projectCarouselSlides.length)
+
+  return (
+    <div className="absolute inset-0">
+      {projectCarouselSlides.map((src, i) => (
+        <img
+          key={i}
+          src={src}
+          alt=""
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${i === index ? 'opacity-100' : 'opacity-0'
+            }`}
+        />
+      ))}
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation()
+          prev()
+        }}
+        className="absolute left-2 top-1/2 z-[15] flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-sm transition hover:bg-black/50"
+        aria-label="Previous slide"
+      >
+        <ChevronLeft className="h-5 w-5" />
+      </button>
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation()
+          next()
+        }}
+        className="absolute right-2 top-1/2 z-[15] flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-sm transition hover:bg-black/50"
+        aria-label="Next slide"
+      >
+        <ChevronRight className="h-5 w-5" />
+      </button>
+      <div className="absolute bottom-2 left-1/2 z-[15] flex -translate-x-1/2 gap-1.5">
+        {projectCarouselSlides.map((_, i) => (
+          <button
+            key={i}
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation()
+              setIndex(i)
+            }}
+            className={`h-1.5 rounded-full transition-[width] ${i === index ? 'w-4 bg-white' : 'w-1.5 bg-white/45'
+              }`}
+            aria-label={`Slide ${i + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
 
 const Projects = ({ isFullPage = false }) => {
   const ref = useRef(null)
@@ -67,7 +138,7 @@ const Projects = ({ isFullPage = false }) => {
   ]
 
   // Conditional styling based on context
-  const sectionClasses = isFullPage 
+  const sectionClasses = isFullPage
     ? "min-h-screen py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-black"
     : " section-padding bg-project"
 
@@ -104,7 +175,7 @@ const Projects = ({ isFullPage = false }) => {
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ delay: 0.6, duration: 1.0, ease: 'easeInOut' }}
           >
-            {isFullPage 
+            {isFullPage
               ? 'Discover our comprehensive collection of architectural projects spanning residential, commercial, cultural, and institutional designs that showcase our commitment to innovation and sustainability.'
               : 'Explore our portfolio of innovative architectural designs that have transformed communities and set new standards for sustainable development.'
             }
@@ -121,91 +192,75 @@ const Projects = ({ isFullPage = false }) => {
           {projects.map((project, index) => {
             // Pattern: full-width, 2 cards, full-width, 2 cards...
             const shouldBeFullWidth = index % 3 === 0
-            
+
             return (
-            <motion.div
-              key={project.id}
-              className={`card overflow-hidden group cursor-pointer ${shouldBeFullWidth ? 'md:col-span-2' : ''}`}
-              initial={{ opacity: 0, y: 50, scale: 0.8 }}
-              animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 50, scale: 0.8 }}
-              transition={{ delay: 1.2 + index * 0.15, duration: 1.0, ease: 'easeInOut' }}
-              whileHover={{
-                y: -10,
-                transition: { duration: 0.5, ease: 'easeInOut' }
-              }}
-            >
-              {/* Project Image */}
               <motion.div
-                className={`relative h-48 bg-gradient-to-br ${project.color} flex items-center justify-center text-6xl text-white overflow-hidden`}
-                whileHover={{ scale: 1.05, transition: { duration: 0.5, ease: 'easeInOut' } }}
-                transition={{ duration: 0.5, ease: 'easeInOut' }}
-              >
+                key={project.id}
+                className={`card overflow-hidden group cursor-pointer ${shouldBeFullWidth ? 'md:col-span-2' : ''}`}
+                initial={{ opacity: 0, y: 50, scale: 0.8 }}
+                animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 50, scale: 0.8 }}
+                transition={{ delay: 1.2 + index * 0.15, duration: 1.0, ease: 'easeInOut' }}
+                whileHover={{ y: -10, transition: { duration: 0.5, ease: 'easeInOut' } }}>
+                {/* Project Image */}
                 <motion.div
-                  animate={{
-                    rotate: [0, 5, -5, 0],
-                    scale: [1, 1.1, 1]
-                  }}
-                  transition={{
-                    duration: 6,
-                    repeat: Infinity,
-                    ease: 'easeInOut'
-                  }}
-                >
-                  {project.image}
-                </motion.div>
-                <motion.div
-                  className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-gray-700"
-                  initial={{ opacity: 0, scale: 0 }}
-                  whileHover={{ opacity: 1, scale: 1, transition: { duration: 0.5, ease: 'easeInOut' } }}
+                  className={`relative h-48 bg-gradient-to-br ${project.color} overflow-hidden`}
+                  whileHover={{ scale: 1.05, transition: { duration: 0.5, ease: 'easeInOut' } }}
                   transition={{ duration: 0.5, ease: 'easeInOut' }}
                 >
-                  {project.category}
+                  <ProjectHeroCarousel />
+                  <motion.div
+                    className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-gray-700 z-20"
+                    initial={{ opacity: 0, scale: 0 }}
+                    whileHover={{ opacity: 1, scale: 1, transition: { duration: 0.5, ease: 'easeInOut' } }}
+                    transition={{ duration: 0.5, ease: 'easeInOut' }}
+                  >
+                    {project.category}
+                  </motion.div>
                 </motion.div>
-              </motion.div>
 
-              {/* Project Content */}
-              <div className="p-6">
-                <motion.h3
-                  className="heading-3 mb-3"
-                  whileHover={{ color: '#667eea', transition: { duration: 0.5, ease: 'easeInOut' } }}
-                  transition={{ duration: 0.5, ease: 'easeInOut' }}
-                >
-                  {project.title}
-                </motion.h3>
-                <p className="text-gray-600 mb-4 leading-relaxed">{project.description}</p>
+                {/* Project Content */}
+                <div className="p-6">
+                  <motion.h3
+                    className="heading-3 mb-3"
+                    whileHover={{ color: '#667eea', transition: { duration: 0.5, ease: 'easeInOut' } }}
+                    transition={{ duration: 0.5, ease: 'easeInOut' }}
+                  >
+                    {project.title}
+                  </motion.h3>
+                  <p className="text-gray-600 mb-4 leading-relaxed">{project.description}</p>
 
-                {/* Features */}
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {project.features.map((feature, featureIndex) => (
-                    <motion.span
-                      key={featureIndex}
-                      className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm font-medium"
-                      initial={{ opacity: 0, scale: 0 }}
-                      animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
-                      transition={{ delay: 1.5 + index * 0.15 + featureIndex * 0.1, duration: 0.5, ease: 'easeInOut' }}
-                      whileHover={{
-                        scale: 1.05,
-                        backgroundColor: '#667eea',
-                        color: 'white',
-                        transition: { duration: 0.5, ease: 'easeInOut' }
-                      }}
-                    >
-                      {feature}
-                    </motion.span>
-                  ))}
+                  {/* Features */}
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {project.features.map((feature, featureIndex) => (
+                      <motion.span
+                        key={featureIndex}
+                        className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm font-medium"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
+                        transition={{ delay: 1.5 + index * 0.15 + featureIndex * 0.1, duration: 0.5, ease: 'easeInOut' }}
+                        whileHover={{
+                          scale: 1.05,
+                          backgroundColor: '#667eea',
+                          color: 'white',
+                          transition: { duration: 0.5, ease: 'easeInOut' }
+                        }}
+                      >
+                        {feature}
+                      </motion.span>
+                    ))}
+                  </div>
+
+                  {/* View Details Button */}
+                  <motion.button
+                    className="flex items-center text-primary-500 font-semibold group-hover:text-secondary-500 transition-colors duration-300"
+                    whileHover={{ x: 5, transition: { duration: 0.5, ease: 'easeInOut' } }}
+                    transition={{ duration: 0.5, ease: 'easeInOut' }}
+                  >
+                    View Details
+                    <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+                  </motion.button>
                 </div>
-
-                {/* View Details Button */}
-                <motion.button
-                  className="flex items-center text-primary-500 font-semibold group-hover:text-secondary-500 transition-colors duration-300"
-                  whileHover={{ x: 5, transition: { duration: 0.5, ease: 'easeInOut' } }}
-                  transition={{ duration: 0.5, ease: 'easeInOut' }}
-                >
-                  View Details
-                  <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform duration-300" />
-                </motion.button>
-              </div>
-            </motion.div>
+              </motion.div>
             )
           })}
         </motion.div>

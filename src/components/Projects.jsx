@@ -41,7 +41,7 @@ const ProjectHeroCarousel = () => {
           e.stopPropagation()
           prev()
         }}
-        className="absolute left-2 top-1/2 z-[15] flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-sm transition hover:bg-black/50"
+        className="absolute left-2 top-1/2 z-[15] flex h-8 w-8 -translate-y-1/2 items-center justify-center mx-8 rounded-full bg-black/35 text-white backdrop-blur-sm transition hover:bg-black/50"
         aria-label="Previous slide"
       >
         <ChevronLeft className="h-5 w-5" />
@@ -52,7 +52,7 @@ const ProjectHeroCarousel = () => {
           e.stopPropagation()
           next()
         }}
-        className="absolute right-2 top-1/2 z-[15] flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-sm transition hover:bg-black/50"
+        className="absolute right-2 top-1/2 z-[15] flex h-8 w-8 -translate-y-1/2 items-center justify-center mx-8 rounded-full bg-black/35 text-white backdrop-blur-sm transition hover:bg-black/50"
         aria-label="Next slide"
       >
         <ChevronRight className="h-5 w-5" />
@@ -162,7 +162,7 @@ const Projects = ({ isFullPage = false }) => {
           transition={{ duration: 1.0, ease: 'easeInOut' }}
         >
           <motion.h2
-            className={`${isFullPage ? 'text-5xl md:text-6xl text-white mb-8' : 'heading-2 mb-6'}`}
+            className={`${isFullPage ? 'text-5xl md:text-6xl text-white mb-8' : 'heading-2 text-white mb-6'}`}
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ delay: 0.3, duration: 1.0, ease: 'easeInOut' }}
@@ -170,7 +170,7 @@ const Projects = ({ isFullPage = false }) => {
             {isFullPage ? 'Our Complete Portfolio' : 'Our Featured Projects'}
           </motion.h2>
           <motion.p
-            className={`${isFullPage ? 'text-xl text-gray-300 max-w-4xl mx-auto' : 'text-large max-w-3xl mx-auto'}`}
+            className={`${isFullPage ? 'text-xl text-gray-300 max-w-4xl mx-auto' : 'text-large text-white max-w-3xl mx-auto'}`}
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ delay: 0.6, duration: 1.0, ease: 'easeInOut' }}

@@ -22,20 +22,9 @@ const Hero = ({ showLogo }) => {
 
 
   return (
-    <section
-      id="home"
-      className="min-h-screen flex items-center relative overflow-hidden"
-    >
-      <video
-        autoPlay
-        muted
-        loop
-        className="absolute inset-0 w-full h-full object-cover z-0"
-      >
-        <source
-          src="https://shuttle-storage.s3.amazonaws.com/arkshelter/Flavor/Videos/Hero%20Video.mp4?1648821220"
-          type="video/mp4"
-        />
+    <section id="home" className="min-h-screen flex items-center relative overflow-hidden">
+      <video autoPlay muted loop className="absolute inset-0 w-full h-full object-cover z-0">
+        <source src="https://shuttle-storage.s3.amazonaws.com/arkshelter/Flavor/Videos/Hero%20Video.mp4?1648821220" type="video/mp4"/>
       </video>
       {/* Overlay for better text readability */}
       <div className="absolute inset-0 bg-black/40 z-0"></div>
@@ -44,7 +33,7 @@ const Hero = ({ showLogo }) => {
         <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-8 items-center">
           {/* Text Content */}
           <motion.div
-            className="space-y-8"
+            className="flex flex-col"
             initial={{ opacity: 0, x: -50 }} // 👈 starting position
             animate={{ opacity: 1, x: 0 }} // 👈 animate to normal position
             transition={
@@ -52,7 +41,7 @@ const Hero = ({ showLogo }) => {
                 ? { delay: 7, duration: 1.5, ease: "easeInOut" }
                 : { delay: 1 }
             } // 👈 smooth animation
-            style={{ zIndex: 1, maxWidth: "30rem", gap: "7rem" }}
+            style={{ zIndex: 1, maxWidth: "30rem", gap: "1rem" }}
           >
             <motion.h1
               className="heading-1 text-green-900"
@@ -61,7 +50,7 @@ const Hero = ({ showLogo }) => {
               transition={{ delay: 0.3, duration: 1.0, ease: "easeInOut" }}
             >
               Designing Tomorrow's{" "}
-              <span className="gradient-text">Architecture</span>
+              <span className="text-[50px] md:text-[60px] lg:text-[80px] gradient-text">Architecture</span>
             </motion.h1>
 
             <motion.p

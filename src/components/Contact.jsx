@@ -88,7 +88,7 @@ const Contact = ({ isFullPage = false }) => {
           transition={{ duration: 0.8 }}
         >
           <motion.h2
-            className={`${isFullPage ? 'text-5xl md:text-6xl text-white mb-8' : 'heading-2 mb-6'}`}
+            className={`${isFullPage ? 'text-5xl md:text-6xl text-white mb-8' : 'heading-2 text-white  mb-6'}`}
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ delay: 0.2, duration: 0.8 }}
@@ -96,7 +96,7 @@ const Contact = ({ isFullPage = false }) => {
             {isFullPage ? 'Get In Touch With Us' : 'Get In Touch'}
           </motion.h2>
           <motion.p
-            className={`${isFullPage ? 'text-xl text-gray-300 max-w-4xl mx-auto' : 'text-large max-w-3xl mx-auto'}`}
+            className={`${isFullPage ? 'text-xl text-gray-300 max-w-4xl mx-auto' : 'text-large text-white  max-w-3xl mx-auto'}`}
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ delay: 0.4, duration: 0.8 }}
@@ -117,7 +117,7 @@ const Contact = ({ isFullPage = false }) => {
             transition={{ duration: 0.8, ease: 'easeOut' }}
           >
             <motion.h3
-              className={`${isFullPage ? 'text-3xl text-white' : 'heading-3'}`}
+              className={`${isFullPage ? 'text-3xl text-white' : 'heading-3 text-white '}`}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ delay: 0.6, duration: 0.8 }}
@@ -126,7 +126,7 @@ const Contact = ({ isFullPage = false }) => {
             </motion.h3>
 
             <motion.p
-              className={isFullPage ? 'text-gray-300 text-lg' : 'text-gray-600'}
+              className={isFullPage ? 'text-gray-300 text-lg' : 'text-white '}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ delay: 0.8, duration: 0.8 }}

@@ -138,9 +138,7 @@ const Projects = ({ isFullPage = false }) => {
   ]
 
   // Conditional styling based on context
-  const sectionClasses = isFullPage
-    ? "min-h-screen py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-black"
-    : " section-padding bg-project"
+  const sectionClasses = isFullPage ? "min-h-screen py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-black" : " section-padding bg-project"
 
   const scrollToContact = () => {
     if (!isFullPage) {

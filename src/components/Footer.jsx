@@ -37,7 +37,7 @@ const Footer = () => {
   ]
 
   return (
-    <footer className="bg-gray-900 text-white section-padding sticky top-0 z-50" ref={ref}>
+    <footer className="bg-gray-900 text-white section-padding bg-gray-50 sticky top-0 z-50" ref={ref}>
       <div className="container">
         {/* Main Footer Content */}
         <motion.div
@@ -54,7 +54,7 @@ const Footer = () => {
             transition={{ delay: 0.3, duration: 1.0, ease: 'easeInOut' }}
           >
             <motion.h3
-              className="text-3xl Quantico text-white font-semibold mb-4 gradient-text"
+              className="text-3xl font-serif font-semibold mb-4 gradient-text"
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.3 }}
             >
@@ -81,7 +81,7 @@ const Footer = () => {
                 <motion.a
                   key={index}
                   href={social.href}
-                  className="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center text-gray-400 hover:text-white transition-colors duration-300"
+                  className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center text-gray-400 hover:text-white transition-colors duration-300"
                   whileHover={{
                     scale: 1.1,
                     backgroundColor: '#667eea'

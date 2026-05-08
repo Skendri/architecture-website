@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef as useReactRef } from 'react'
@@ -45,7 +45,7 @@ const rooms = [
     alt: "Modern Residential Complex",
     description: "Contemporary design meets sustainable living",
     src: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80",
-    itemIds: [1, 2, 3, 4, 5]
+    itemIds: [1, 2, 3, 4, 5, 16]
   },
   {
     id: 1,
@@ -53,7 +53,7 @@ const rooms = [
     alt: "Corporate Headquarters",
     description: "Professional environments for productive teams",
     src: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&q=80",
-    itemIds: [6, 7, 8, 9, 10]
+    itemIds: [6, 7, 8, 9, 10, 17]
   },
   {
     id: 2,
@@ -61,7 +61,7 @@ const rooms = [
     alt: "Cultural Arts Center",
     description: "Inspiring spaces for creativity and community",
     src: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200&q=80",
-    itemIds: [11, 12, 13, 14, 15]
+    itemIds: [11, 12, 13, 14, 15, 18]
   }
 ]
 
@@ -261,6 +261,45 @@ const items = [
     name: "Shopping Center",
     description: '400,000 sq ft • Commercial Zone',
     price: "2025"
+  },
+  {
+    id: 16,
+    preview: "https://images.unsplash.com/photo-1600585152915-d0bec9a75fdd?w=400&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1600585152915-d0bec9a75fdd?w=800&q=80",
+      "https://images.unsplash.com/photo-1600607688969-a5bcbd7d209f?w=800&q=80",
+      "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=800&q=80"
+    ],
+    brand: "CIVIC",
+    name: "Public Plaza",
+    description: '25,000 sq ft • Riverfront',
+    price: "2025"
+  },
+  {
+    id: 17,
+    preview: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80",
+      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&q=80",
+      "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=800&q=80"
+    ],
+    brand: "WORKPLACE",
+    name: "Innovation Lab",
+    description: '40,000 sq ft • Innovation District',
+    price: "2024"
+  },
+  {
+    id: 18,
+    preview: "https://images.unsplash.com/photo-1511818966892-d7d671e672a2?w=400&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1511818966892-d7d671e672a2?w=800&q=80",
+      "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80",
+      "https://images.unsplash.com/photo-1503095396549-807759245d35?w=800&q=80"
+    ],
+    brand: "PERFORMING ARTS",
+    name: "Concert Hall",
+    description: '90,000 sq ft • Arts Quarter',
+    price: "2026"
   }
 ]
 
@@ -360,6 +399,8 @@ const ProjectsPage = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [slideDirection, setSlideDirection] = useState(0)
   const carouselRef = useReactRef(null)
+  const itemsScrollRef = useReactRef(null)
+  const [activeItemIndex, setActiveItemIndex] = useState(0)
 
   const getItemsForRoom = (roomId) => {
     const room = rooms[roomId]
@@ -367,22 +408,124 @@ const ProjectsPage = () => {
     return items.filter(item => room.itemIds.includes(item.id))
   }
 
-  const nextSlide = () => {
+  const nextSlide = useCallback(() => {
     setSlideDirection(1)
     setCurrentSlide((prev) => (prev + 1) % rooms.length)
-  }
+  }, [])
 
-  const prevSlide = () => {
+  const prevSlide = useCallback(() => {
     setSlideDirection(-1)
     setCurrentSlide((prev) => (prev - 1 + rooms.length) % rooms.length)
-  }
+  }, [])
 
   const currentRoomItems = getItemsForRoom(currentSlide)
+
+  useEffect(() => {
+    setActiveItemIndex(0)
+    const el = itemsScrollRef.current
+    if (el) el.scrollLeft = 0
+  }, [currentSlide])
+
+  useEffect(() => {
+    const el = itemsScrollRef.current
+    if (!el) return
+
+    const updateActiveFromScroll = () => {
+      const cards = el.querySelectorAll('[data-carousel-card]')
+      if (cards.length === 0) return
+      const containerRect = el.getBoundingClientRect()
+      const centerX = containerRect.left + containerRect.width / 2
+      let best = 0
+      let bestDist = Infinity
+      cards.forEach((card, i) => {
+        const r = card.getBoundingClientRect()
+        const cardCenter = r.left + r.width / 2
+        const dist = Math.abs(cardCenter - centerX)
+        if (dist < bestDist) {
+          bestDist = dist
+          best = i
+        }
+      })
+      setActiveItemIndex(best)
+    }
+
+    el.addEventListener('scroll', updateActiveFromScroll, { passive: true })
+    window.addEventListener('resize', updateActiveFromScroll)
+    updateActiveFromScroll()
+    return () => {
+      el.removeEventListener('scroll', updateActiveFromScroll)
+      window.removeEventListener('resize', updateActiveFromScroll)
+    }
+  }, [currentSlide, currentRoomItems.length])
+
+  const scrollToItemCard = (index) => {
+    const root = itemsScrollRef.current
+    const card = root?.querySelector(`[data-carousel-card="${index}"]`)
+    card?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+  }
+
+  const moveItemsByKeyboard = useCallback((delta) => {
+    const n = currentRoomItems.length
+    if (n === 0) return
+    const next = Math.max(0, Math.min(n - 1, activeItemIndex + delta))
+    if (next !== activeItemIndex) scrollToItemCard(next)
+  }, [activeItemIndex, currentRoomItems.length])
+
+  // Arrow keys normally only reach elements that have focus — listen at window so sliders work immediately.
+  useEffect(() => {
+    const heroSection = carouselRef.current
+    const handleKeyDown = (e) => {
+      if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return
+      const raw = e.target
+      const el =
+        raw && typeof raw.nodeType === 'number' && raw.nodeType === 1 ? raw : null
+      if (el instanceof Element && el.closest('input, textarea, select, [contenteditable="true"]'))
+        return
+
+      let target = 'hero'
+      const heroRect = heroSection?.getBoundingClientRect()
+      const itemsEl = itemsScrollRef.current
+      const itemsRect = itemsEl?.getBoundingClientRect()
+      const cy = typeof window !== 'undefined' ? window.innerHeight / 2 : 0
+
+      const visibleHero =
+        !!heroRect && heroRect.bottom > 80 && heroRect.top < window.innerHeight - 80
+      const visibleItems =
+        !!itemsRect && itemsRect.bottom > 80 && itemsRect.top < window.innerHeight - 80
+
+      if (visibleHero && visibleItems) {
+        const distHero = heroRect ? Math.abs(heroRect.top + heroRect.height / 2 - cy) : Infinity
+        const distItems = itemsRect ? Math.abs(itemsRect.top + itemsRect.height / 2 - cy) : Infinity
+        target = distHero <= distItems ? 'hero' : 'items'
+      } else if (visibleItems) target = 'items'
+      else if (visibleHero) target = 'hero'
+      else return
+
+      const delta = e.key === 'ArrowRight' ? 1 : -1
+      if (target === 'items') {
+        e.preventDefault()
+        moveItemsByKeyboard(delta)
+      } else if (target === 'hero') {
+        e.preventDefault()
+        delta > 0 ? nextSlide() : prevSlide()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [nextSlide, prevSlide, moveItemsByKeyboard])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black pt-20">
       {/* IKEA-Style Room Carousel Section */}
-      <section className="relative w-full h-[70vh] overflow-hidden bg-black">
+      <section
+        ref={carouselRef}
+        role="region"
+        aria-roledescription="carousel"
+        aria-label="Featured room showcases"
+        className="relative w-full h-[70vh] overflow-hidden bg-black"
+      >
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide}
@@ -479,13 +622,15 @@ const ProjectsPage = () => {
 
           {/* IKEA-style scrollable grid */}
           <div 
-            className="flex gap-6 overflow-x-auto pb-8 snap-x"
+            ref={itemsScrollRef}
+            className="flex gap-6 overflow-x-auto pb-8 snap-x snap-mandatory"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {currentRoomItems.map((item, index) => (
               <motion.div
                 key={item.id}
-                className="flex-shrink-0 w-72 md:w-80 snap-center"
+                data-carousel-card={index}
+                className="flex-shrink-0 w-72 md:w-80 snap-center snap-always"
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1, duration: 0.5 }}
@@ -532,16 +677,23 @@ const ProjectsPage = () => {
             ))}
           </div>
 
-          {/* Navigation dots for items */}
+          {/* Navigation dots for items (skip first & last cards — dots don't sync well at edges) */}
           <div className="flex justify-center gap-2 mt-8">
-            {currentRoomItems.map((_, index) => (
-              <button
-                key={index}
-                className={`w-2 h-2 rounded-full transition-all ${
-                  index === 0 ? 'bg-cyan-500 w-6' : 'bg-gray-600 hover:bg-gray-500'
-                }`}
-              />
-            ))}
+            {currentRoomItems.slice(1, -1).map((_, sliceIndex) => {
+              const index = sliceIndex + 1
+              return (
+                <button
+                  key={index}
+                  type="button"
+                  aria-label={`Go to project ${index + 1}`}
+                  aria-current={index === activeItemIndex ? 'true' : undefined}
+                  onClick={() => scrollToItemCard(index)}
+                  className={`h-2 rounded-full transition-all ${
+                    index === activeItemIndex ? 'bg-cyan-500 w-6' : 'w-2 bg-gray-600 hover:bg-gray-500'
+                  }`}
+                />
+              )
+            })}
           </div>
         </div>
       </section>

@@ -6,10 +6,7 @@ const Parallax = ({showLogo}) => {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isScrolled, setIsScrolled] = useState(false)
   const containerRef = useRef(null)
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  })
+  const { scrollYProgress } = useScroll({target: containerRef,offset: ["start start", "end end"]})
 
   const slides = [
     {
@@ -38,27 +35,6 @@ const Parallax = ({showLogo}) => {
     }
   ]
 
-    const floatingCards = [
-    {
-      icon: "🏗️",
-      title: "Modern Design",
-      description: "Sustainable architecture",
-      delay: 0,
-    },
-    {
-      icon: "✨",
-      title: "Innovation",
-      description: "Cutting-edge solutions",
-      delay: 0.5,
-    },
-    {
-      icon: "🏆",
-      title: "Excellence",
-      description: "Award-winning projects",
-      delay: 1,
-    },
-  ];
-
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY)
@@ -83,19 +59,6 @@ const Parallax = ({showLogo}) => {
 
   return (
     <div ref={containerRef} className="relative overflow-hidden bg-white">
-      {/* Sticky Logo - Inspired by hitoba-office */}
-      <motion.div
-        className="fixed bottom-8 left-8 z-50 pointer-events-none"
-        style={{
-          opacity: logoOpacity,
-          y: logoY
-        }}
-      >
-        <div className="text-4xl font-serif font-bold text-black">
-          ARCHITECTURE
-        </div>
-      </motion.div>
-
       {/* Hero Section - Full Screen Slideshow */}
       <section className="relative h-screen w-full overflow-hidden">
         <AnimatePresence mode="wait">
@@ -195,65 +158,6 @@ const Parallax = ({showLogo}) => {
         </motion.div>
       </section>
 
-      {/* Spacer */}
-      <div className="h-[80vh] md:h-[60vh]" />
-
-      {/* Works Section - Grid Layout */}
-          {/* Floating Cards */}
-          <motion.div
-            className="relative h-80 sm:h-96 lg:h-[500px]"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={
-              !showLogo
-                ? { delay: 7, duration: 1.0, ease: "easeInOut" }
-                : { delay: 1 }
-            }
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-primary-500  rounded-3xl flex items-center justify-center text-white text-6xl"></div>
-            {/* to-secondary-500 */}
-
-            {floatingCards.map((card, index) => (
-              <motion.div
-                key={index}
-                className="absolute bg-white rounded-2xl p-6 shadow-xl"
-                style={{
-                  top: `${20 + index * 25}%`,
-                  right: index % 2 === 0 ? "-10%" : "10%",
-                  left: index % 2 === 1 ? "-10%" : "auto",
-                }}
-                initial={{ opacity: 0, y: 50, scale: 0.8 }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                  scale: 1,
-                  rotate: [0, 5, -5, 0],
-                }}
-                transition={{
-                  delay: 1.5 + card.delay,
-                  duration: 1.0,
-                  ease: "easeInOut",
-                  rotate: {
-                    duration: 6,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  },
-                }}
-                whileHover={{
-                  scale: 1.1,
-                  rotate: 0,
-                  transition: { duration: 0.5, ease: "easeInOut" },
-                }}
-              >
-                <div className="text-3xl mb-3">{card.icon}</div>
-                <h3 className="font-semibold text-gray-900 mb-1">
-                  {card.title}
-                </h3>
-                <p className="text-sm text-gray-600">{card.description}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-
       {/* About Section */}
       <section className="relative py-32 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
@@ -312,60 +216,6 @@ const Parallax = ({showLogo}) => {
             </motion.div>
           </div>
         </div>
-      </section>
-
-      {/* Contact Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Background Image with Parallax */}
-        <div
-          className="absolute inset-0"
-          style={{
-            transform: `translateY(${getParallaxOffset(0.5)}px) scale(1.2)`,
-          }}
-        >
-          <img
-            src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=2000&q=80"
-            alt="Contact"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/40" />
-        </div>
-
-        {/* Contact Content */}
-        <motion.div
-          className="relative z-10 max-w-4xl mx-auto px-4 text-center text-white"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          <h2 className="text-6xl md:text-8xl font-serif font-light mb-8">Contact</h2>
-          <p className="text-xl md:text-2xl mb-12 text-black/90 max-w-2xl mx-auto">
-            Let's discuss how we can bring your architectural vision to life.
-            Get in touch to start your project.
-          </p>
-          <motion.a
-            href="#"
-            className="inline-flex items-center gap-4 px-12 py-4 bg-white text-black hover:bg-gray-100 transition-all duration-300 text-lg"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Get In Touch
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-              />
-            </svg>
-          </motion.a>
-        </motion.div>
       </section>
     </div>
   )

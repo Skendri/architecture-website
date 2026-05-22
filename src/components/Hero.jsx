@@ -1,9 +1,20 @@
 import { useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 
 const Hero = ({ showLogo }) => {
   const heroRef = useRef(null);
+
+  // 🔥 Scroll progress
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+
+  // 🔥 Parallax transforms
+  const videoY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   const scrollToProjects = () => {
     const element = document.getElementById("projects");
@@ -19,62 +30,97 @@ const Hero = ({ showLogo }) => {
     }
   };
 
-
-
   return (
-    <section id="home" className="min-h-screen flex items-center relative overflow-hidden">
-      <video autoPlay muted loop className="absolute inset-0 w-full h-full object-cover z-0">
-        <source src="https://shuttle-storage.s3.amazonaws.com/arkshelter/Flavor/Videos/Hero%20Video.mp4?1648821220" type="video/mp4"/>
-      </video>
-      {/* Overlay for better text readability */}
-      <div className="absolute inset-0 bg-black/40 z-0"></div>
+    <section
+      ref={heroRef}
+      id="home"
+      className="relative min-h-screen overflow-hidden flex items-center"
+    >
+      {/* 🔥 PARALLAX VIDEO */}
+      <motion.video
+        autoPlay
+        muted
+        loop
+        style={{ y: videoY }}
+        className="absolute inset-0 w-full h-[120%] object-cover z-0"
+      >
+        <source
+          src="https://shuttle-storage.s3.amazonaws.com/arkshelter/Flavor/Videos/Hero%20Video.mp4?1648821220"
+          type="video/mp4"
+        />
+      </motion.video>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/50 z-0"></div>
+
+      {/* 🔥 PARALLAX CONTENT */}
+      <motion.div
+        style={{
+          y: textY,
+          opacity,
+        }}
+        className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10"
+      >
         <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-8 items-center">
           {/* Text Content */}
           <motion.div
-            className="flex flex-col"
-            initial={{ opacity: 0, x: -50 }} // 👈 starting position
-            animate={{ opacity: 1, x: 0 }} // 👈 animate to normal position
+            className="flex flex-col gap-4 max-w-[30rem]"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={
               !showLogo
                 ? { delay: 7, duration: 1.5, ease: "easeInOut" }
                 : { delay: 1 }
-            } // 👈 smooth animation
-            style={{ zIndex: 1, maxWidth: "30rem", gap: "1rem" }}
+            }
           >
+            {/* Title */}
             <motion.h1
               className="heading-1 text-green-900"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 1.0, ease: "easeInOut" }}
+              transition={{
+                delay: 0.3,
+                duration: 1,
+                ease: "easeInOut",
+              }}
             >
               Designing Tomorrow's{" "}
-              <span className="text-[50px] md:text-[60px] lg:text-[80px] gradient-text">Architecture</span>
+              <span className="text-[50px] md:text-[60px] lg:text-[80px] gradient-text">
+                Architecture
+              </span>
             </motion.h1>
 
+            {/* Paragraph */}
             <motion.p
-              className="hidden sm:inline text-medium max-w-sm sm:max-w-lg lg:max-w-2xl"
+              className="hidden sm:inline text-medium max-w-sm sm:max-w-lg lg:max-w-2xl text-white/90"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 1.0, ease: "easeInOut" }}
-              style={{ color: "whitesmoke" }}
+              transition={{
+                delay: 0.6,
+                duration: 1,
+                ease: "easeInOut",
+              }}
             >
-              We create innovative, sustainable, and beautiful architectural
-              solutions that stand the test of time. Our designs blend
-              functionality with aesthetic excellence to shape the future of
-              living spaces.
+              We create innovative, sustainable, and beautiful
+              architectural solutions that stand the test of time.
+              Our designs blend functionality with aesthetic excellence
+              to shape the future of living spaces.
             </motion.p>
 
+            {/* Buttons */}
             <motion.div
               className="flex flex-col sm:flex-row gap-4"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.9, duration: 1.0, ease: "easeInOut" }}
+              transition={{
+                delay: 0.9,
+                duration: 1,
+                ease: "easeInOut",
+              }}
             >
               <motion.button
                 onClick={scrollToProjects}
-                className="btn group "
+                className="btn group"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -93,10 +139,8 @@ const Hero = ({ showLogo }) => {
               </motion.button>
             </motion.div>
           </motion.div>
-
-
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

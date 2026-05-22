@@ -7,10 +7,7 @@ const Header = ({ showLogo }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const [activeSection, setActiveSection] = useState(
-    location.pathname === "/" ? "home" : location.pathname.slice(1),
-  );
-
+  const [activeSection, setActiveSection] = useState(location.pathname === "/" ? "home" : location.pathname.slice(1));
   const [animationStage, setAnimationStage] = useState("fadeIn");
   const [targetPos, setTargetPos] = useState({ x: -200, y: -800 });
 

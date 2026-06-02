@@ -2,6 +2,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { ExternalLink, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import split1 from '../images/split_1.png'
 import split2 from '../images/split_2.png'
@@ -79,6 +80,7 @@ const ProjectHeroCarousel = () => {
 const Projects = ({ isFullPage = false }) => {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
+  const navigate = useNavigate()
 
   const projects = [
     {
@@ -250,6 +252,8 @@ const Projects = ({ isFullPage = false }) => {
 
                   {/* View Details Button */}
                   <motion.button
+                    type="button"
+                    onClick={() => navigate('/projects')}
                     className="flex items-center text-primary-500 font-semibold group-hover:text-secondary-500 transition-colors duration-300"
                     whileHover={{ x: 5, transition: { duration: 0.5, ease: 'easeInOut' } }}
                     transition={{ duration: 0.5, ease: 'easeInOut' }}

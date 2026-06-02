@@ -59,7 +59,7 @@ const Hero = ({ showLogo }) => {
           y: textY,
           opacity,
         }}
-        className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10"
+        className="container mx-auto mt-20 px-4 sm:px-6 lg:px-8 py-12 relative z-10"
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-8 items-center">
           {/* Text Content */}

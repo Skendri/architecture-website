@@ -313,7 +313,7 @@ const ProjectsPage = () => {
       title: 'Modern Residential Complex',
       category: 'Residential',
       description: 'A sustainable residential development featuring innovative green building techniques and modern amenities. This project showcases our commitment to eco-friendly living spaces.',
-      image: '🏢',
+      image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&q=80',
       features: ['Solar Panels', 'Green Roof', 'Smart Home Tech', 'Rainwater Harvesting'],
       color: 'from-blue-500 to-cyan-500',
       status: 'Completed',
@@ -326,7 +326,7 @@ const ProjectsPage = () => {
       title: 'Corporate Headquarters',
       category: 'Commercial',
       description: 'An award-winning office building that combines functionality with stunning architectural design. Features state-of-the-art facilities and sustainable practices.',
-      image: '🏢',
+      image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=900&q=80',
       features: ['LEED Certified', 'Open Workspaces', 'Natural Lighting', 'Green Spaces'],
       color: 'from-purple-500 to-pink-500',
       status: 'Completed',
@@ -339,7 +339,7 @@ const ProjectsPage = () => {
       title: 'Cultural Arts Center',
       category: 'Cultural',
       description: 'A vibrant cultural hub designed to inspire creativity and bring communities together. Features performance halls, galleries, and community spaces.',
-      image: '🎭',
+      image: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=900&q=80',
       features: ['Performance Hall', 'Gallery Spaces', 'Community Areas', 'Outdoor Amphitheater'],
       color: 'from-orange-500 to-red-500',
       status: 'Under Construction',
@@ -352,7 +352,7 @@ const ProjectsPage = () => {
       title: 'Sustainable School Campus',
       category: 'Educational',
       description: 'An innovative educational facility that promotes learning through sustainable design principles and biophilic architecture.',
-      image: '🎓',
+      image: 'https://images.unsplash.com/photo-1562774053-701939374585?w=900&q=80',
       features: ['Natural Ventilation', 'Outdoor Classrooms', 'Renewable Energy', 'Learning Gardens'],
       color: 'from-green-500 to-emerald-500',
       status: 'Completed',
@@ -365,7 +365,7 @@ const ProjectsPage = () => {
       title: 'Luxury Hotel Resort',
       category: 'Hospitality',
       description: 'A world-class resort that seamlessly blends luxury with environmental consciousness, featuring stunning ocean views and eco-friendly amenities.',
-      image: '🏨',
+      image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=900&q=80',
       features: ['Ocean Views', 'Spa Facilities', 'Eco-Friendly Design', 'Infinity Pool'],
       color: 'from-teal-500 to-blue-500',
       status: 'Planning',
@@ -378,7 +378,7 @@ const ProjectsPage = () => {
       title: 'Urban Mixed-Use Development',
       category: 'Mixed-Use',
       description: 'A comprehensive development that combines residential, commercial, and recreational spaces in a vibrant urban environment.',
-      image: '🏙️',
+      image: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=900&q=80',
       features: ['Retail Spaces', 'Residential Units', 'Public Parks', 'Community Center'],
       color: 'from-indigo-500 to-purple-500',
       status: 'Under Construction',
@@ -390,6 +390,7 @@ const ProjectsPage = () => {
 
   const categories = ['All', 'Residential', 'Commercial', 'Cultural', 'Educational', 'Hospitality', 'Mixed-Use']
   const [selectedCategory, setSelectedCategory] = React.useState('All')
+  const [selectedProject, setSelectedProject] = useState(null)
 
   const filteredProjects = selectedCategory === 'All' 
     ? projects 
@@ -836,11 +837,15 @@ const ProjectsPage = () => {
                 {/* Project Image */}
                 <div className="relative h-64 bg-gradient-to-br from-gray-700 to-gray-800 overflow-hidden">
                   <motion.div
-                    className={`absolute inset-0 bg-gradient-to-br ${project.color} flex items-center justify-center text-8xl`}
+                    className={`absolute inset-0 bg-gradient-to-br ${project.color}`}
                     whileHover={{ scale: 1.1 }}
                     transition={{ duration: 0.5 }}
                   >
-                    {project.image}
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover opacity-90 mix-blend-luminosity"
+                    />
                   </motion.div>
                   
                   {/* Status Badge */}
@@ -902,6 +907,8 @@ const ProjectsPage = () => {
 
                   {/* View Details Button */}
                   <motion.button
+                    type="button"
+                    onClick={() => setSelectedProject(project)}
                     className="w-full flex items-center justify-center bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold py-3 rounded-xl hover:from-cyan-500 hover:to-blue-500 transition-all duration-300"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -915,6 +922,100 @@ const ProjectsPage = () => {
           </motion.div>
         </div>
       </section>
+
+      <AnimatePresence>
+        {selectedProject && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 px-4 py-8 backdrop-blur-md"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedProject(null)}
+          >
+            <motion.div
+              className="relative max-h-[90vh] w-full max-w-5xl overflow-y-auto rounded-3xl bg-gray-950 shadow-2xl ring-1 ring-white/15"
+              initial={{ opacity: 0, y: 40, scale: 0.86 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 30, scale: 0.9 }}
+              transition={{ type: 'spring', stiffness: 220, damping: 24 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="grid lg:grid-cols-[1.1fr_0.9fr]">
+                <div className="relative min-h-[320px] overflow-hidden bg-gradient-to-br from-gray-700 to-gray-900 lg:min-h-[620px]">
+                  <div className={`absolute inset-0 bg-gradient-to-br ${selectedProject.color}`}>
+                    <img
+                      src={selectedProject.image}
+                      alt={selectedProject.title}
+                      className="h-full w-full object-cover opacity-95 mix-blend-luminosity"
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                  <div className="absolute left-5 top-5">
+                    <span className={`px-3 py-1 rounded-full text-xs font-bold text-white ${
+                      selectedProject.status === 'Completed' ? 'bg-green-500' :
+                      selectedProject.status === 'Under Construction' ? 'bg-yellow-500' : 'bg-blue-500'
+                    }`}>
+                      {selectedProject.status}
+                    </span>
+                  </div>
+                  <div className="absolute right-5 top-5">
+                    <span className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-gray-700">
+                      {selectedProject.category}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="p-7 md:p-10">
+                  <div className="mb-6 flex items-start justify-between gap-5">
+                    <div>
+                      <p className="mb-2 text-sm font-bold uppercase tracking-widest text-cyan-400">
+                        {selectedProject.year}
+                      </p>
+                      <h3 className="text-3xl font-bold leading-tight text-white md:text-5xl">
+                        {selectedProject.title}
+                      </h3>
+                    </div>
+                    <button
+                      type="button"
+                      aria-label="Close project details"
+                      onClick={() => setSelectedProject(null)}
+                      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+                    >
+                      <X className="h-5 w-5" />
+                    </button>
+                  </div>
+
+                  <p className="mb-8 text-base leading-relaxed text-gray-300 md:text-lg">
+                    {selectedProject.description}
+                  </p>
+
+                  <div className="mb-8 grid grid-cols-2 gap-4">
+                    <div className="rounded-2xl bg-white/5 p-4">
+                      <span className="text-sm text-gray-400">Area</span>
+                      <p className="mt-1 text-lg font-bold text-white">{selectedProject.area}</p>
+                    </div>
+                    <div className="rounded-2xl bg-white/5 p-4">
+                      <span className="text-sm text-gray-400">Location</span>
+                      <p className="mt-1 text-lg font-bold text-white">{selectedProject.location}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    {selectedProject.features.map((feature) => (
+                      <span
+                        key={feature}
+                        className="rounded-full bg-cyan-500/15 px-4 py-2 text-sm font-medium text-cyan-100"
+                      >
+                        {feature}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* CTA Section */}
       <section className="py-20">

@@ -132,7 +132,7 @@ const Header = ({ showLogo }) => {
                 >
                   <Link
                     to={item.href}
-                    className={`relative ${activeSection === item.href.slice(1) || (item.href === "/" && activeSection === "home") ? "text-primary-500" : "text-gray-700"} hover:text-primary-500 font-medium transition-colors duration-300`}
+                    className={`relative ${activeSection === item.href.slice(1) || (item.href === "/" && activeSection === "home") ? "text-primary-500" : "text-white"} hover:text-primary-500 font-medium transition-colors duration-300`}
                   >
                     {item.name}
                     <motion.div

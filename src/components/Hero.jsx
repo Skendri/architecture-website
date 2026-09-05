@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 
@@ -41,7 +42,14 @@ const Hero = ({ showLogo }) => {
         autoPlay
         muted
         loop
-        style={{ y: videoY, filter: "blur(4px)" }}
+        style={{ y: videoY }}
+        initial={{ filter: "blur(20px)" }}
+        animate={{ filter: "blur(1px)" }}
+        transition={
+          !showLogo
+            ? { duration: 8, ease: "linear" }
+            : { duration: 1, ease: "linear" }
+        }
         className="absolute inset-0 w-full h-[120%] object-cover z-0"
       >
         <source
@@ -84,7 +92,7 @@ const Hero = ({ showLogo }) => {
             >
               {/* Title */}
               <motion.h1
-                className="heading-1 text-white font-[Miltonian]"
+                className="heading-1 text-white font-[Monoton]"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
@@ -94,7 +102,7 @@ const Hero = ({ showLogo }) => {
                 }}
               >
                 Designing Tomorrow's{" "}
-                <span className="text-[50px] md:text-[60px] lg:text-[80px] gradient-text">
+                <span className="text-[50px] md:text-[60px] lg:text-[80px]">
                   Architecture
                 </span>
               </motion.h1>
@@ -129,21 +137,25 @@ const Hero = ({ showLogo }) => {
           >
             <motion.button
               onClick={scrollToProjects}
-              className="btn group"
+              className="group relative inline-flex items-center justify-center overflow-hidden rounded-full p-0.5 bg-gradient-to-br from-purple-500 to-pink-500 focus:outline-none focus:ring-4 focus:ring-purple-200 transition-all duration-300"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              View Our Work
-              <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+              <span className="relative inline-flex items-center justify-center rounded-full bg-[#141414]/90 px-6 py-3 text-sm font-medium text-white transition-all duration-75 group-hover:bg-transparent group-hover:text-white">
+                View Our Work
+                <ArrowRight className="ml-2 transition-transform duration-300 group-hover:translate-x-1" />
+              </span>
             </motion.button>
             <motion.button
               onClick={scrollToContact}
-              className="btn group"
+              className="btn group relative inline-flex items-center justify-center overflow-hidden rounded-full p-0.5 bg-gradient-to-br from-purple-500 to-pink-500 focus:outline-none focus:ring-4 focus:ring-purple-200 transition-all duration-300"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Get In Touch
-              <Sparkles className="ml-2 group-hover:rotate-12 transition-transform duration-300" />
+              <span className="relative inline-flex items-center justify-center rounded-full bg-[#141414]/90 px-6 py-3 text-sm font-medium text-white transition-all duration-75 group-hover:bg-transparent group-hover:text-white">
+                Get In Touch
+                <Sparkles className="ml-2 group-hover:rotate-12 transition-transform duration-300" />
+              </span>
             </motion.button>
           </motion.div>
         </div>

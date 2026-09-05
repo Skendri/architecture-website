@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Miltonian&family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Miltonian&family=Monoton&family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -18,7 +19,7 @@
   }
 
   .container {
-    max-width: 100rem;
+    max-width: 100rem !important; 
     /* background-image: url(./images/Screenshot\ from\ 2025-10-30\ 00-43-07.png); */
   }
 }
@@ -82,6 +83,32 @@
 }
 
 @layer utilities {
+  /* styling for tsParicle.js library */
+  .about-particles {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    opacity: 0.95;
+    pointer-events: none;
+  }
+
+  .about-particles canvas {
+    display: block;
+  }
+
+  .contact-particles {
+        position: absolute;
+    inset: 0;
+    z-index: 1;
+    opacity: 0.95;
+    pointer-events: none;
+  }
+
+  .contact-particles canvas {
+     display: block;
+  }
+  /* styling for tsParicle.js library */
+
   .animate-fade-in-up {
     animation: fadeInUp 0.6s ease-out;
   }

@@ -1,12 +1,57 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback} from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle, MessageSquare, Calendar, Users, Building } from 'lucide-react'
+import Particles, { ParticlesProvider } from '@tsparticles/react'
+import { loadSlim } from '@tsparticles/slim'
+
+const particleOptions = {
+  fullScreen: { enable: false },
+  background: { color: { value: 'transparent' } },
+  particles: {
+    number: { value: 96, density: { enable: true, area: 850 } },
+    color: { value: ['#60a5fa', '#22d3ee', '#a78bfa'] },
+    shape: { type: 'circle' },
+    opacity: { value: 0.82, random: true },
+    size: { value: 4, random: true },
+    links: {
+      enable: true,
+      distance: 155,
+      color: '#67e8f9',
+      opacity: 0.48,
+      width: 1.2
+    },
+    move: {
+      enable: true,
+      speed: 1.5,
+      direction: 'none',
+      random: true,
+      straight: false,
+      outModes: { default: 'out' }
+    }
+  },
+  interactivity: {
+    detectsOn: 'window',
+    events: {
+      onHover: { enable: true, mode: ['grab', 'repulse'] },
+      onClick: { enable: true, mode: 'repulse' },
+      resize: { enable: true }
+    },
+    modes: {
+      grab: { distance: 170, links: { opacity: 0.55 } },
+      repulse: { distance: 130, duration: 0.45 }
+    }
+  },
+  detectRetina: true
+}
 
 const ContactPage = () => {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
+    const particlesInit = useCallback(async engine => {
+      await loadSlim(engine)
+    }, [])
 
   const [formData, setFormData] = useState({
     name: '',
@@ -98,7 +143,11 @@ const ContactPage = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black pt-20">
+    <div className="relative isolate overflow-hidden  min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black pt-20">
+      <ParticlesProvider init={particlesInit}>
+        <Particles id="contact-particles" className="contact-particles" options={particleOptions} />
+      </ParticlesProvider>
+      <div className="relative z-10">
       {/* Hero Section */}
       <section className="py-20">
         <div className="container">
@@ -455,6 +504,7 @@ const ContactPage = () => {
             </form>
           </motion.div>
         </div>
+      </div>
       </div>
     </div>
   )

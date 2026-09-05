@@ -7,6 +7,7 @@ import About from "./components/About";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+
 import AboutPage from "./components/AboutPage";
 import ProjectsPage from "./components/ProjectsPage";
 import Parallax from "./components/Parallax";
@@ -66,8 +67,8 @@ function App() {
                   transition={pageTransition}
                 >
                   <Hero showLogo={showLogo} />
-                  <About />
                   <Projects />
+                  <About />
                   <Contact />
                 </motion.div>
               </AnimatePresence>

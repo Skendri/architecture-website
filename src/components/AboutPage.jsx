@@ -1,12 +1,57 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { Award, Users, Building, Lightbulb, MapPin, Calendar, Target } from 'lucide-react'
+import Particles, { ParticlesProvider } from '@tsparticles/react'
+import { loadSlim } from '@tsparticles/slim'
+
+const particleOptions = {
+  fullScreen: { enable: false },
+  background: { color: { value: 'transparent' } },
+  particles: {
+    number: { value: 96, density: { enable: true, area: 850 } },
+    color: { value: ['#60a5fa', '#22d3ee', '#a78bfa'] },
+    shape: { type: 'circle' },
+    opacity: { value: 0.82, random: true },
+    size: { value: 4, random: true },
+    links: {
+      enable: true,
+      distance: 155,
+      color: '#67e8f9',
+      opacity: 0.48,
+      width: 1.2
+    },
+    move: {
+      enable: true,
+      speed: 1.5,
+      direction: 'none',
+      random: true,
+      straight: false,
+      outModes: { default: 'out' }
+    }
+  },
+  interactivity: {
+    detectsOn: 'window',
+    events: {
+      onHover: { enable: true, mode: ['grab', 'repulse'] },
+      onClick: { enable: true, mode: 'repulse' },
+      resize: { enable: true }
+    },
+    modes: {
+      grab: { distance: 170, links: { opacity: 0.55 } },
+      repulse: { distance: 130, duration: 0.45 }
+    }
+  },
+  detectRetina: true
+}
 
 const AboutPage = () => {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
+  const particlesInit = useCallback(async engine => {
+    await loadSlim(engine)
+  }, [])
 
   const features = [
     {
@@ -65,7 +110,11 @@ const AboutPage = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black pt-20">
+    <div className="relative isolate min-h-screen overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-black pt-20">
+      <ParticlesProvider init={particlesInit}>
+        <Particles id="about-particles" className="about-particles" options={particleOptions} />
+      </ParticlesProvider>
+      <div className="relative z-10">
       {/* Hero Section */}
       <section className="py-20">
         <div className="container">
@@ -289,6 +338,7 @@ const AboutPage = () => {
           </motion.div>
         </div>
       </section>
+      </div>
     </div>
   )
 }

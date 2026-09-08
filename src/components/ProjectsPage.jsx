@@ -1,41 +1,76 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { useInView } from 'framer-motion'
-import { useRef as useReactRef } from 'react'
-import { ExternalLink, ArrowRight, Filter, Grid, List, ChevronLeft, ChevronRight, Heart, ShoppingCart, Menu, X } from 'lucide-react'
+import React, { useState, useRef, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useInView } from "framer-motion";
+import { useRef as useReactRef } from "react";
+import {
+  ExternalLink,
+  ArrowRight,
+  Filter,
+  Grid,
+  List,
+  ChevronLeft,
+  ChevronRight,
+  Heart,
+  ShoppingCart,
+  Menu,
+  X,
+} from "lucide-react";
 
 // Icons (IKEA-style SVGs)
 const LeftArrowIcon = () => (
   <svg viewBox="0 0 1433 1024" width="24" height="24">
-    <path d="M1433.6 614.4H409.6l256 256-153.6 153.6L0 512 512 0l153.6 153.6-256 256h1024z" fill="currentColor"/>
+    <path
+      d="M1433.6 614.4H409.6l256 256-153.6 153.6L0 512 512 0l153.6 153.6-256 256h1024z"
+      fill="currentColor"
+    />
   </svg>
-)
+);
 
 const RightArrowIcon = () => (
   <svg viewBox="0 0 1433 1024" width="24" height="24">
-    <path d="M0 614.4h1024l-256 256 153.6 153.6 512-512L921.6 0l-153.6 153.6 256 256H0z" fill="currentColor"/>
+    <path
+      d="M0 614.4h1024l-256 256 153.6 153.6 512-512L921.6 0l-153.6 153.6 256 256H0z"
+      fill="currentColor"
+    />
   </svg>
-)
+);
 
 const HeartIcon = ({ filled }) => (
   <svg viewBox="0 0 1024 1024" width="24" height="24">
-    <path d="M725.306 42.696c-83.56 0-159.122 34.342-213.306 89.668-54.202-55.326-129.746-89.668-213.32-89.668C133.732 42.696 0.018 176.41 0.018 341.342 0.018 682.69 512 981.304 512 981.304s511.982-298.616 511.982-639.962c0-164.932-133.714-298.646-298.676-298.646z" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="20"/>
+    <path
+      d="M725.306 42.696c-83.56 0-159.122 34.342-213.306 89.668-54.202-55.326-129.746-89.668-213.32-89.668C133.732 42.696 0.018 176.41 0.018 341.342 0.018 682.69 512 981.304 512 981.304s511.982-298.616 511.982-639.962c0-164.932-133.714-298.646-298.676-298.646z"
+      fill={filled ? "currentColor" : "none"}
+      stroke="currentColor"
+      strokeWidth="20"
+    />
   </svg>
-)
+);
 
 const CartIcon = () => (
   <svg viewBox="0 0 1024 1024" width="24" height="24">
-    <path d="M912.64 200A21.312 21.312 0 0 0 896 192H170.666667v426.666667h640c10.005333 0 18.645333-6.954667 20.842666-16.704l85.333334-384a21.333333 21.333333 0 0 0-4.202667-17.962667z" fill="currentColor"/>
+    <path
+      d="M912.64 200A21.312 21.312 0 0 0 896 192H170.666667v426.666667h640c10.005333 0 18.645333-6.954667 20.842666-16.704l85.333334-384a21.333333 21.333333 0 0 0-4.202667-17.962667z"
+      fill="currentColor"
+    />
   </svg>
-)
+);
 
 const MenuIcon = () => (
   <svg viewBox="0 0 1024 1024" width="24" height="24">
-    <path d="M128 469.333333m40.533333 0l686.933334 0q40.533333 0 40.533333 40.533334l0 4.266666q0 40.533333-40.533333 40.533334l-686.933334 0q-40.533333 0-40.533333-40.533334l0-4.266666q0-40.533333 40.533333-40.533334Z" fill="currentColor"/>
-    <path d="M128 682.666667m40.533333 0l686.933334 0q40.533333 0 40.533333 40.533333l0 4.266667q0 40.533333-40.533333 40.533333l-686.933334 0q-40.533333 0-40.533333-40.533333l0-4.266667q0-40.533333 40.533333-40.533333Z" fill="currentColor"/>
-    <path d="M128 256m40.533333 0l686.933334 0q40.533333 0 40.533333 40.533333l0 4.266667q0 40.533333-40.533333 40.533333l-686.933334 0q-40.533333 0-40.533333-40.533333l0-4.266667q0-40.533333 40.533333-40.533333Z" fill="currentColor"/>
+    <path
+      d="M128 469.333333m40.533333 0l686.933334 0q40.533333 0 40.533333 40.533334l0 4.266666q0 40.533333-40.533333 40.533334l-686.933334 0q-40.533333 0-40.533333-40.533334l0-4.266666q0-40.533333 40.533333-40.533334Z"
+      fill="currentColor"
+    />
+    <path
+      d="M128 682.666667m40.533333 0l686.933334 0q40.533333 0 40.533333 40.533333l0 4.266667q0 40.533333-40.533333 40.533333l-686.933334 0q-40.533333 0-40.533333-40.533333l0-4.266667q0-40.533333 40.533333-40.533333Z"
+      fill="currentColor"
+    />
+    <path
+      d="M128 256m40.533333 0l686.933334 0q40.533333 0 40.533333 40.533333l0 4.266667q0 40.533333-40.533333 40.533333l-686.933334 0q-40.533333 0-40.533333-40.533333l0-4.266667q0-40.533333 40.533333-40.533333Z"
+      fill="currentColor"
+    />
   </svg>
-)
+);
 
 // Project rooms data (IKEA-style room showcases)
 const rooms = [
@@ -45,7 +80,7 @@ const rooms = [
     alt: "Modern Residential Complex",
     description: "Contemporary design meets sustainable living",
     src: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80",
-    itemIds: [1, 2, 3, 4, 5, 16]
+    itemIds: [1, 2, 3, 4, 5, 16],
   },
   {
     id: 1,
@@ -53,7 +88,7 @@ const rooms = [
     alt: "Corporate Headquarters",
     description: "Professional environments for productive teams",
     src: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&q=80",
-    itemIds: [6, 7, 8, 9, 10, 17]
+    itemIds: [6, 7, 8, 9, 10, 17],
   },
   {
     id: 2,
@@ -61,461 +96,550 @@ const rooms = [
     alt: "Cultural Arts Center",
     description: "Inspiring spaces for creativity and community",
     src: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200&q=80",
-    itemIds: [11, 12, 13, 14, 15, 18]
-  }
-]
+    itemIds: [11, 12, 13, 14, 15, 18],
+  },
+];
 
 // Items data (IKEA-style project items)
 const items = [
   {
     id: 1,
-    preview: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&q=80",
+    preview:
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&q=80",
     images: [
       "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80",
       "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=800&q=80",
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80"
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
     ],
     brand: "MODERN",
     name: "Sustainable Living",
-    description: '50,000 sq ft • Downtown District',
-    price: "2024"
+    description: "50,000 sq ft • Downtown District",
+    price: "2024",
   },
   {
     id: 2,
-    preview: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&q=80",
+    preview:
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&q=80",
     images: [
       "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
       "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80",
-      "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=800&q=80"
+      "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=800&q=80",
     ],
     brand: "CORPORATE",
     name: "Office Headquarters",
-    description: '120,000 sq ft • Business Park',
-    price: "2023"
+    description: "120,000 sq ft • Business Park",
+    price: "2023",
   },
   {
     id: 3,
-    preview: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&q=80",
+    preview:
+      "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&q=80",
     images: [
       "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80",
       "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800&q=80",
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80"
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80",
     ],
     brand: "CULTURAL",
     name: "Arts Center",
-    description: '75,000 sq ft • Cultural District',
-    price: "2025"
+    description: "75,000 sq ft • Cultural District",
+    price: "2025",
   },
   {
     id: 4,
-    preview: "https://images.unsplash.com/photo-1562774053-701939374585?w=400&q=80",
+    preview:
+      "https://images.unsplash.com/photo-1562774053-701939374585?w=400&q=80",
     images: [
       "https://images.unsplash.com/photo-1562774053-701939374585?w=800&q=80",
       "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80",
-      "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80"
+      "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80",
     ],
     brand: "EDUCATIONAL",
     name: "School Campus",
-    description: '200,000 sq ft • University District',
-    price: "2024"
+    description: "200,000 sq ft • University District",
+    price: "2024",
   },
   {
     id: 5,
-    preview: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80",
+    preview:
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80",
     images: [
       "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80",
       "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800&q=80",
-      "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&q=80"
+      "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&q=80",
     ],
     brand: "HOSPITALITY",
     name: "Luxury Resort",
-    description: '300,000 sq ft • Coastal Area',
-    price: "2026"
+    description: "300,000 sq ft • Coastal Area",
+    price: "2026",
   },
   {
     id: 6,
-    preview: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=400&q=80",
+    preview:
+      "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=400&q=80",
     images: [
       "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80",
       "https://images.unsplash.com/photo-1460317442991-0ec209397118?w=800&q=80",
-      "https://images.unsplash.com/photo-1449844908441-8829872d2607?w=800&q=80"
+      "https://images.unsplash.com/photo-1449844908441-8829872d2607?w=800&q=80",
     ],
     brand: "MIXED-USE",
     name: "Urban Development",
-    description: '500,000 sq ft • Urban Center',
-    price: "2025"
+    description: "500,000 sq ft • Urban Center",
+    price: "2025",
   },
   {
     id: 7,
-    preview: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=400&q=80",
+    preview:
+      "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=400&q=80",
     images: [
       "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=800&q=80",
       "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&q=80",
-      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80"
+      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80",
     ],
     brand: "RESIDENTIAL",
     name: "Apartment Complex",
-    description: '85,000 sq ft • Metro Area',
-    price: "2024"
+    description: "85,000 sq ft • Metro Area",
+    price: "2024",
   },
   {
     id: 8,
-    preview: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=400&q=80",
+    preview:
+      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=400&q=80",
     images: [
       "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&q=80",
       "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=800&q=80",
-      "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80"
+      "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80",
     ],
     brand: "COMMERCIAL",
     name: "Business Center",
-    description: '95,000 sq ft • Financial District',
-    price: "2023"
+    description: "95,000 sq ft • Financial District",
+    price: "2023",
   },
   {
     id: 9,
-    preview: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=400&q=80",
+    preview:
+      "https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=400&q=80",
     images: [
       "https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=800&q=80",
       "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&q=80",
-      "https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=800&q=80"
+      "https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=800&q=80",
     ],
     brand: "RESEARCH",
     name: "Tech Campus",
-    description: '250,000 sq ft • Tech Park',
-    price: "2025"
+    description: "250,000 sq ft • Tech Park",
+    price: "2025",
   },
   {
     id: 10,
-    preview: "https://images.unsplash.com/photo-1572025224626-8b0890c05649?w=400&q=80",
+    preview:
+      "https://images.unsplash.com/photo-1572025224626-8b0890c05649?w=400&q=80",
     images: [
       "https://images.unsplash.com/photo-1572025224626-8b0890c05649?w=800&q=80",
       "https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=800&q=80",
-      "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=800&q=80"
+      "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=800&q=80",
     ],
     brand: "HEALTHCARE",
     name: "Medical Center",
-    description: '180,000 sq ft • Medical District',
-    price: "2024"
+    description: "180,000 sq ft • Medical District",
+    price: "2024",
   },
   {
     id: 11,
-    preview: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80",
+    preview:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80",
     images: [
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80",
       "https://images.unsplash.com/photo-1461301214746-1e790926d323?w=800&q=80",
-      "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800&q=80"
+      "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800&q=80",
     ],
     brand: "CULTURAL",
     name: "Museum Gallery",
-    description: '60,000 sq ft • Arts District',
-    price: "2024"
+    description: "60,000 sq ft • Arts District",
+    price: "2024",
   },
   {
     id: 12,
-    preview: "https://images.unsplash.com/photo-1455587734955-081b22074882?w=400&q=80",
+    preview:
+      "https://images.unsplash.com/photo-1455587734955-081b22074882?w=400&q=80",
     images: [
       "https://images.unsplash.com/photo-1455587734955-081b22074882?w=800&q=80",
       "https://images.unsplash.com/photo-1465310477141-6fb93167a273?w=800&q=80",
-      "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&q=80"
+      "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&q=80",
     ],
     brand: "SPORTS",
     name: "Sports Complex",
-    description: '150,000 sq ft • Recreation Area',
-    price: "2025"
+    description: "150,000 sq ft • Recreation Area",
+    price: "2025",
   },
   {
     id: 13,
-    preview: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&q=80",
+    preview:
+      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&q=80",
     images: [
       "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80",
       "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80",
-      "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&q=80"
+      "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&q=80",
     ],
     brand: "OFFICE",
     name: "Executive Suites",
-    description: '45,000 sq ft • Downtown',
-    price: "2023"
+    description: "45,000 sq ft • Downtown",
+    price: "2023",
   },
   {
     id: 14,
-    preview: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&q=80",
+    preview:
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&q=80",
     images: [
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
       "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=800&q=80",
-      "https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?w=800&q=80"
+      "https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?w=800&q=80",
     ],
     brand: "RESIDENTIAL",
     name: "Villa Complex",
-    description: '35,000 sq ft • Suburban Area',
-    price: "2024"
+    description: "35,000 sq ft • Suburban Area",
+    price: "2024",
   },
   {
     id: 15,
-    preview: "https://images.unsplash.com/photo-1577985043696-8bd54d9c4f9b?w=400&q=80",
+    preview:
+      "https://images.unsplash.com/photo-1577985043696-8bd54d9c4f9b?w=400&q=80",
     images: [
       "https://images.unsplash.com/photo-1577985043696-8bd54d9c4f9b?w=800&q=80",
       "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=800&q=80",
-      "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=800&q=80"
+      "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=800&q=80",
     ],
     brand: "RETAIL",
     name: "Shopping Center",
-    description: '400,000 sq ft • Commercial Zone',
-    price: "2025"
+    description: "400,000 sq ft • Commercial Zone",
+    price: "2025",
   },
   {
     id: 16,
-    preview: "https://images.unsplash.com/photo-1600585152915-d0bec9a75fdd?w=400&q=80",
+    preview:
+      "https://images.unsplash.com/photo-1600585152915-d0bec9a75fdd?w=400&q=80",
     images: [
       "https://images.unsplash.com/photo-1600585152915-d0bec9a75fdd?w=800&q=80",
       "https://images.unsplash.com/photo-1600607688969-a5bcbd7d209f?w=800&q=80",
-      "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=800&q=80"
+      "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=800&q=80",
     ],
     brand: "CIVIC",
     name: "Public Plaza",
-    description: '25,000 sq ft • Riverfront',
-    price: "2025"
+    description: "25,000 sq ft • Riverfront",
+    price: "2025",
   },
   {
     id: 17,
-    preview: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&q=80",
+    preview:
+      "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&q=80",
     images: [
       "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80",
       "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&q=80",
-      "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=800&q=80"
+      "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=800&q=80",
     ],
     brand: "WORKPLACE",
     name: "Innovation Lab",
-    description: '40,000 sq ft • Innovation District',
-    price: "2024"
+    description: "40,000 sq ft • Innovation District",
+    price: "2024",
   },
   {
     id: 18,
-    preview: "https://images.unsplash.com/photo-1511818966892-d7d671e672a2?w=400&q=80",
+    preview:
+      "https://images.unsplash.com/photo-1511818966892-d7d671e672a2?w=400&q=80",
     images: [
       "https://images.unsplash.com/photo-1511818966892-d7d671e672a2?w=800&q=80",
       "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80",
-      "https://images.unsplash.com/photo-1503095396549-807759245d35?w=800&q=80"
+      "https://images.unsplash.com/photo-1503095396549-807759245d35?w=800&q=80",
     ],
     brand: "PERFORMING ARTS",
     name: "Concert Hall",
-    description: '90,000 sq ft • Arts Quarter',
-    price: "2026"
-  }
-]
+    description: "90,000 sq ft • Arts Quarter",
+    price: "2026",
+  },
+];
 
 const ProjectsPage = () => {
-  const ref = useReactRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-100px' })
+  const ref = useReactRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const projects = [
     {
       id: 1,
-      title: 'Modern Residential Complex',
-      category: 'Residential',
-      description: 'A sustainable residential development featuring innovative green building techniques and modern amenities. This project showcases our commitment to eco-friendly living spaces.',
-      image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&q=80',
-      features: ['Solar Panels', 'Green Roof', 'Smart Home Tech', 'Rainwater Harvesting'],
-      color: 'from-blue-500 to-cyan-500',
-      status: 'Completed',
-      year: '2024',
-      area: '50,000 sq ft',
-      location: 'Downtown District'
+      title: "Modern Residential Complex",
+      category: "Residential",
+      description:
+        "A sustainable residential development featuring innovative green building techniques and modern amenities. This project showcases our commitment to eco-friendly living spaces.",
+      image:
+        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&q=80",
+      features: [
+        "Solar Panels",
+        "Green Roof",
+        "Smart Home Tech",
+        "Rainwater Harvesting",
+      ],
+      color: "from-blue-500 to-cyan-500",
+      status: "Completed",
+      year: "2024",
+      area: "50,000 sq ft",
+      location: "Downtown District",
     },
     {
       id: 2,
-      title: 'Corporate Headquarters',
-      category: 'Commercial',
-      description: 'An award-winning office building that combines functionality with stunning architectural design. Features state-of-the-art facilities and sustainable practices.',
-      image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=900&q=80',
-      features: ['LEED Certified', 'Open Workspaces', 'Natural Lighting', 'Green Spaces'],
-      color: 'from-purple-500 to-pink-500',
-      status: 'Completed',
-      year: '2023',
-      area: '120,000 sq ft',
-      location: 'Business Park'
+      title: "Corporate Headquarters",
+      category: "Commercial",
+      description:
+        "An award-winning office building that combines functionality with stunning architectural design. Features state-of-the-art facilities and sustainable practices.",
+      image:
+        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=900&q=80",
+      features: [
+        "LEED Certified",
+        "Open Workspaces",
+        "Natural Lighting",
+        "Green Spaces",
+      ],
+      color: "from-purple-500 to-pink-500",
+      status: "Completed",
+      year: "2023",
+      area: "120,000 sq ft",
+      location: "Business Park",
     },
     {
       id: 3,
-      title: 'Cultural Arts Center',
-      category: 'Cultural',
-      description: 'A vibrant cultural hub designed to inspire creativity and bring communities together. Features performance halls, galleries, and community spaces.',
-      image: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=900&q=80',
-      features: ['Performance Hall', 'Gallery Spaces', 'Community Areas', 'Outdoor Amphitheater'],
-      color: 'from-orange-500 to-red-500',
-      status: 'Under Construction',
-      year: '2025',
-      area: '75,000 sq ft',
-      location: 'Cultural District'
+      title: "Cultural Arts Center",
+      category: "Cultural",
+      description:
+        "A vibrant cultural hub designed to inspire creativity and bring communities together. Features performance halls, galleries, and community spaces.",
+      image:
+        "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=900&q=80",
+      features: [
+        "Performance Hall",
+        "Gallery Spaces",
+        "Community Areas",
+        "Outdoor Amphitheater",
+      ],
+      color: "from-orange-500 to-red-500",
+      status: "Under Construction",
+      year: "2025",
+      area: "75,000 sq ft",
+      location: "Cultural District",
     },
     {
       id: 4,
-      title: 'Sustainable School Campus',
-      category: 'Educational',
-      description: 'An innovative educational facility that promotes learning through sustainable design principles and biophilic architecture.',
-      image: 'https://images.unsplash.com/photo-1562774053-701939374585?w=900&q=80',
-      features: ['Natural Ventilation', 'Outdoor Classrooms', 'Renewable Energy', 'Learning Gardens'],
-      color: 'from-green-500 to-emerald-500',
-      status: 'Completed',
-      year: '2024',
-      area: '200,000 sq ft',
-      location: 'University District'
+      title: "Sustainable School Campus",
+      category: "Educational",
+      description:
+        "An innovative educational facility that promotes learning through sustainable design principles and biophilic architecture.",
+      image:
+        "https://images.unsplash.com/photo-1562774053-701939374585?w=900&q=80",
+      features: [
+        "Natural Ventilation",
+        "Outdoor Classrooms",
+        "Renewable Energy",
+        "Learning Gardens",
+      ],
+      color: "from-green-500 to-emerald-500",
+      status: "Completed",
+      year: "2024",
+      area: "200,000 sq ft",
+      location: "University District",
     },
     {
       id: 5,
-      title: 'Luxury Hotel Resort',
-      category: 'Hospitality',
-      description: 'A world-class resort that seamlessly blends luxury with environmental consciousness, featuring stunning ocean views and eco-friendly amenities.',
-      image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=900&q=80',
-      features: ['Ocean Views', 'Spa Facilities', 'Eco-Friendly Design', 'Infinity Pool'],
-      color: 'from-teal-500 to-blue-500',
-      status: 'Planning',
-      year: '2026',
-      area: '300,000 sq ft',
-      location: 'Coastal Area'
+      title: "Luxury Hotel Resort",
+      category: "Hospitality",
+      description:
+        "A world-class resort that seamlessly blends luxury with environmental consciousness, featuring stunning ocean views and eco-friendly amenities.",
+      image:
+        "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=900&q=80",
+      features: [
+        "Ocean Views",
+        "Spa Facilities",
+        "Eco-Friendly Design",
+        "Infinity Pool",
+      ],
+      color: "from-teal-500 to-blue-500",
+      status: "Planning",
+      year: "2026",
+      area: "300,000 sq ft",
+      location: "Coastal Area",
     },
     {
       id: 6,
-      title: 'Urban Mixed-Use Development',
-      category: 'Mixed-Use',
-      description: 'A comprehensive development that combines residential, commercial, and recreational spaces in a vibrant urban environment.',
-      image: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=900&q=80',
-      features: ['Retail Spaces', 'Residential Units', 'Public Parks', 'Community Center'],
-      color: 'from-indigo-500 to-purple-500',
-      status: 'Under Construction',
-      year: '2025',
-      area: '500,000 sq ft',
-      location: 'Urban Center'
-    }
-  ]
+      title: "Urban Mixed-Use Development",
+      category: "Mixed-Use",
+      description:
+        "A comprehensive development that combines residential, commercial, and recreational spaces in a vibrant urban environment.",
+      image:
+        "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=900&q=80",
+      features: [
+        "Retail Spaces",
+        "Residential Units",
+        "Public Parks",
+        "Community Center",
+      ],
+      color: "from-indigo-500 to-purple-500",
+      status: "Under Construction",
+      year: "2025",
+      area: "500,000 sq ft",
+      location: "Urban Center",
+    },
+  ];
 
-  const categories = ['All', 'Residential', 'Commercial', 'Cultural', 'Educational', 'Hospitality', 'Mixed-Use']
-  const [selectedCategory, setSelectedCategory] = React.useState('All')
-  const [selectedProject, setSelectedProject] = useState(null)
+  const categories = [
+    "All",
+    "Residential",
+    "Commercial",
+    "Cultural",
+    "Educational",
+    "Hospitality",
+    "Mixed-Use",
+  ];
+  const [selectedCategory, setSelectedCategory] = React.useState("All");
+  const [selectedProject, setSelectedProject] = useState(null);
 
-  const filteredProjects = selectedCategory === 'All' 
-    ? projects 
-    : projects.filter(project => project.category === selectedCategory)
+  const filteredProjects =
+    selectedCategory === "All"
+      ? projects
+      : projects.filter((project) => project.category === selectedCategory);
 
   // IKEA-style carousel state
-  const [currentSlide, setCurrentSlide] = useState(0)
-  const [slideDirection, setSlideDirection] = useState(0)
-  const carouselRef = useReactRef(null)
-  const itemsScrollRef = useReactRef(null)
-  const [activeItemIndex, setActiveItemIndex] = useState(0)
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [slideDirection, setSlideDirection] = useState(0);
+  const carouselRef = useReactRef(null);
+  const itemsScrollRef = useReactRef(null);
+  const [activeItemIndex, setActiveItemIndex] = useState(0);
 
   const getItemsForRoom = (roomId) => {
-    const room = rooms[roomId]
-    if (!room) return []
-    return items.filter(item => room.itemIds.includes(item.id))
-  }
+    const room = rooms[roomId];
+    if (!room) return [];
+    return items.filter((item) => room.itemIds.includes(item.id));
+  };
 
   const nextSlide = useCallback(() => {
-    setSlideDirection(1)
-    setCurrentSlide((prev) => (prev + 1) % rooms.length)
-  }, [])
+    setSlideDirection(1);
+    setCurrentSlide((prev) => (prev + 1) % rooms.length);
+  }, []);
 
   const prevSlide = useCallback(() => {
-    setSlideDirection(-1)
-    setCurrentSlide((prev) => (prev - 1 + rooms.length) % rooms.length)
-  }, [])
+    setSlideDirection(-1);
+    setCurrentSlide((prev) => (prev - 1 + rooms.length) % rooms.length);
+  }, []);
 
-  const currentRoomItems = getItemsForRoom(currentSlide)
-
-  useEffect(() => {
-    setActiveItemIndex(0)
-    const el = itemsScrollRef.current
-    if (el) el.scrollLeft = 0
-  }, [currentSlide])
+  const currentRoomItems = getItemsForRoom(currentSlide);
 
   useEffect(() => {
-    const el = itemsScrollRef.current
-    if (!el) return
+    setActiveItemIndex(0);
+    const el = itemsScrollRef.current;
+    if (el) el.scrollLeft = 0;
+  }, [currentSlide]);
+
+  useEffect(() => {
+    const el = itemsScrollRef.current;
+    if (!el) return;
 
     const updateActiveFromScroll = () => {
-      const cards = el.querySelectorAll('[data-carousel-card]')
-      if (cards.length === 0) return
-      const containerRect = el.getBoundingClientRect()
-      const centerX = containerRect.left + containerRect.width / 2
-      let best = 0
-      let bestDist = Infinity
+      const cards = el.querySelectorAll("[data-carousel-card]");
+      if (cards.length === 0) return;
+      const containerRect = el.getBoundingClientRect();
+      const centerX = containerRect.left + containerRect.width / 2;
+      let best = 0;
+      let bestDist = Infinity;
       cards.forEach((card, i) => {
-        const r = card.getBoundingClientRect()
-        const cardCenter = r.left + r.width / 2
-        const dist = Math.abs(cardCenter - centerX)
+        const r = card.getBoundingClientRect();
+        const cardCenter = r.left + r.width / 2;
+        const dist = Math.abs(cardCenter - centerX);
         if (dist < bestDist) {
-          bestDist = dist
-          best = i
+          bestDist = dist;
+          best = i;
         }
-      })
-      setActiveItemIndex(best)
-    }
+      });
+      setActiveItemIndex(best);
+    };
 
-    el.addEventListener('scroll', updateActiveFromScroll, { passive: true })
-    window.addEventListener('resize', updateActiveFromScroll)
-    updateActiveFromScroll()
+    el.addEventListener("scroll", updateActiveFromScroll, { passive: true });
+    window.addEventListener("resize", updateActiveFromScroll);
+    updateActiveFromScroll();
     return () => {
-      el.removeEventListener('scroll', updateActiveFromScroll)
-      window.removeEventListener('resize', updateActiveFromScroll)
-    }
-  }, [currentSlide, currentRoomItems.length])
+      el.removeEventListener("scroll", updateActiveFromScroll);
+      window.removeEventListener("resize", updateActiveFromScroll);
+    };
+  }, [currentSlide, currentRoomItems.length]);
 
   const scrollToItemCard = (index) => {
-    const root = itemsScrollRef.current
-    const card = root?.querySelector(`[data-carousel-card="${index}"]`)
-    card?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
-  }
+    const root = itemsScrollRef.current;
+    const card = root?.querySelector(`[data-carousel-card="${index}"]`);
+    card?.scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+      block: "nearest",
+    });
+  };
 
-  const moveItemsByKeyboard = useCallback((delta) => {
-    const n = currentRoomItems.length
-    if (n === 0) return
-    const next = Math.max(0, Math.min(n - 1, activeItemIndex + delta))
-    if (next !== activeItemIndex) scrollToItemCard(next)
-  }, [activeItemIndex, currentRoomItems.length])
+  const moveItemsByKeyboard = useCallback(
+    (delta) => {
+      const n = currentRoomItems.length;
+      if (n === 0) return;
+      const next = Math.max(0, Math.min(n - 1, activeItemIndex + delta));
+      if (next !== activeItemIndex) scrollToItemCard(next);
+    },
+    [activeItemIndex, currentRoomItems.length],
+  );
 
   // Arrow keys normally only reach elements that have focus — listen at window so sliders work immediately.
   useEffect(() => {
-    const heroSection = carouselRef.current
+    const heroSection = carouselRef.current;
     const handleKeyDown = (e) => {
-      if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return
-      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return
-      const raw = e.target
+      if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      const raw = e.target;
       const el =
-        raw && typeof raw.nodeType === 'number' && raw.nodeType === 1 ? raw : null
-      if (el instanceof Element && el.closest('input, textarea, select, [contenteditable="true"]'))
-        return
+        raw && typeof raw.nodeType === "number" && raw.nodeType === 1
+          ? raw
+          : null;
+      if (
+        el instanceof Element &&
+        el.closest('input, textarea, select, [contenteditable="true"]')
+      )
+        return;
 
-      let target = 'hero'
-      const heroRect = heroSection?.getBoundingClientRect()
-      const itemsEl = itemsScrollRef.current
-      const itemsRect = itemsEl?.getBoundingClientRect()
-      const cy = typeof window !== 'undefined' ? window.innerHeight / 2 : 0
+      let target = "hero";
+      const heroRect = heroSection?.getBoundingClientRect();
+      const itemsEl = itemsScrollRef.current;
+      const itemsRect = itemsEl?.getBoundingClientRect();
+      const cy = typeof window !== "undefined" ? window.innerHeight / 2 : 0;
 
       const visibleHero =
-        !!heroRect && heroRect.bottom > 80 && heroRect.top < window.innerHeight - 80
+        !!heroRect &&
+        heroRect.bottom > 80 &&
+        heroRect.top < window.innerHeight - 80;
       const visibleItems =
-        !!itemsRect && itemsRect.bottom > 80 && itemsRect.top < window.innerHeight - 80
+        !!itemsRect &&
+        itemsRect.bottom > 80 &&
+        itemsRect.top < window.innerHeight - 80;
 
       if (visibleHero && visibleItems) {
-        const distHero = heroRect ? Math.abs(heroRect.top + heroRect.height / 2 - cy) : Infinity
-        const distItems = itemsRect ? Math.abs(itemsRect.top + itemsRect.height / 2 - cy) : Infinity
-        target = distHero <= distItems ? 'hero' : 'items'
-      } else if (visibleItems) target = 'items'
-      else if (visibleHero) target = 'hero'
-      else return
+        const distHero = heroRect
+          ? Math.abs(heroRect.top + heroRect.height / 2 - cy)
+          : Infinity;
+        const distItems = itemsRect
+          ? Math.abs(itemsRect.top + itemsRect.height / 2 - cy)
+          : Infinity;
+        target = distHero <= distItems ? "hero" : "items";
+      } else if (visibleItems) target = "items";
+      else if (visibleHero) target = "hero";
+      else return;
 
-      const delta = e.key === 'ArrowRight' ? 1 : -1
-      if (target === 'items') {
-        e.preventDefault()
-        moveItemsByKeyboard(delta)
-      } else if (target === 'hero') {
-        e.preventDefault()
-        delta > 0 ? nextSlide() : prevSlide()
+      const delta = e.key === "ArrowRight" ? 1 : -1;
+      if (target === "items") {
+        e.preventDefault();
+        moveItemsByKeyboard(delta);
+      } else if (target === "hero") {
+        e.preventDefault();
+        delta > 0 ? nextSlide() : prevSlide();
       }
-    }
+    };
 
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [nextSlide, prevSlide, moveItemsByKeyboard])
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [nextSlide, prevSlide, moveItemsByKeyboard]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black pt-20">
@@ -593,11 +717,13 @@ const ProjectsPage = () => {
             <button
               key={index}
               onClick={() => {
-                setSlideDirection(index > currentSlide ? 1 : -1)
-                setCurrentSlide(index)
+                setSlideDirection(index > currentSlide ? 1 : -1);
+                setCurrentSlide(index);
               }}
               className={`w-3 h-3 rounded-full transition-all ${
-                index === currentSlide ? 'bg-white w-8' : 'bg-white/50 hover:bg-white/70'
+                index === currentSlide
+                  ? "bg-white w-8"
+                  : "bg-white/50 hover:bg-white/70"
               }`}
             />
           ))}
@@ -617,15 +743,16 @@ const ProjectsPage = () => {
               Featured Projects
             </h2>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Discover our latest architectural achievements across different categories
+              Discover our latest architectural achievements across different
+              categories
             </p>
           </motion.div>
 
           {/* IKEA-style scrollable grid */}
-          <div 
+          <div
             ref={itemsScrollRef}
             className="flex gap-6 overflow-x-auto pb-8 snap-x snap-mandatory"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
             {currentRoomItems.map((item, index) => (
               <motion.div
@@ -681,19 +808,21 @@ const ProjectsPage = () => {
           {/* Navigation dots for items (skip first & last cards — dots don't sync well at edges) */}
           <div className="flex justify-center gap-2 mt-8">
             {currentRoomItems.slice(1, -1).map((_, sliceIndex) => {
-              const index = sliceIndex + 1
+              const index = sliceIndex + 1;
               return (
                 <button
                   key={index}
                   type="button"
                   aria-label={`Go to project ${index + 1}`}
-                  aria-current={index === activeItemIndex ? 'true' : undefined}
+                  aria-current={index === activeItemIndex ? "true" : undefined}
                   onClick={() => scrollToItemCard(index)}
                   className={`h-2 rounded-full transition-all ${
-                    index === activeItemIndex ? 'bg-cyan-500 w-6' : 'w-2 bg-gray-600 hover:bg-gray-500'
+                    index === activeItemIndex
+                      ? "bg-cyan-500 w-6"
+                      : "w-2 bg-gray-600 hover:bg-gray-500"
                   }`}
                 />
-              )
+              );
             })}
           </div>
         </div>
@@ -729,9 +858,10 @@ const ProjectsPage = () => {
                 Sustainable Modern Living
               </h3>
               <p className="text-gray-400 text-lg leading-relaxed">
-                Experience the perfect blend of contemporary design and sustainable architecture. 
-                Our award-winning residential complex features innovative green building techniques, 
-                smart home technology, and modern amenities that redefine urban living.
+                Experience the perfect blend of contemporary design and
+                sustainable architecture. Our award-winning residential complex
+                features innovative green building techniques, smart home
+                technology, and modern amenities that redefine urban living.
               </p>
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-white/5 rounded-xl p-4">
@@ -777,9 +907,10 @@ const ProjectsPage = () => {
               Our <span className="gradient-text">Portfolio</span>
             </h1>
             <p className="text-xl text-gray-300 leading-relaxed">
-              Explore our comprehensive collection of architectural projects spanning residential, 
-              commercial, cultural, and institutional designs that showcase our commitment to 
-              innovation, sustainability, and exceptional design.
+              Explore our comprehensive collection of architectural projects
+              spanning residential, commercial, cultural, and institutional
+              designs that showcase our commitment to innovation,
+              sustainability, and exceptional design.
             </p>
           </motion.div>
         </div>
@@ -799,12 +930,16 @@ const ProjectsPage = () => {
                 key={category}
                 className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
                   selectedCategory === category
-                    ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg'
-                    : 'bg-white/10 text-gray-300 hover:bg-white/20 backdrop-blur-sm'
+                    ? "bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg"
+                    : "bg-white/10 text-gray-300 hover:bg-white/20 backdrop-blur-sm"
                 }`}
                 onClick={() => setSelectedCategory(category)}
                 initial={{ opacity: 0, scale: 0.8 }}
-                animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+                animate={
+                  isInView
+                    ? { opacity: 1, scale: 1 }
+                    : { opacity: 0, scale: 0.8 }
+                }
                 transition={{ delay: 0.4 + index * 0.1, duration: 0.5 }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -817,7 +952,7 @@ const ProjectsPage = () => {
       </section>
 
       {/* Projects Grid */}
-      <section className="py-20">
+      <section className="relative py-20">
         <div className="container">
           <motion.div
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
@@ -830,7 +965,11 @@ const ProjectsPage = () => {
                 key={project.id}
                 className="bg-white/10 backdrop-blur-sm rounded-3xl overflow-hidden group hover:bg-white/15 transition-all duration-500"
                 initial={{ opacity: 0, y: 50, scale: 0.8 }}
-                animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 50, scale: 0.8 }}
+                animate={
+                  isInView
+                    ? { opacity: 1, y: 0, scale: 1 }
+                    : { opacity: 0, y: 50, scale: 0.8 }
+                }
                 transition={{ delay: 0.8 + index * 0.1, duration: 0.8 }}
                 whileHover={{ y: -10, scale: 1.02 }}
               >
@@ -847,13 +986,18 @@ const ProjectsPage = () => {
                       className="w-full h-full object-cover opacity-90 mix-blend-luminosity"
                     />
                   </motion.div>
-                  
+
                   {/* Status Badge */}
                   <div className="absolute top-4 left-4">
-                    <span className={`px-3 py-1 rounded-full text-xs font-bold text-white ${
-                      project.status === 'Completed' ? 'bg-green-500' :
-                      project.status === 'Under Construction' ? 'bg-yellow-500' : 'bg-blue-500'
-                    }`}>
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-bold text-white ${
+                        project.status === "Completed"
+                          ? "bg-green-500"
+                          : project.status === "Under Construction"
+                            ? "bg-yellow-500"
+                            : "bg-blue-500"
+                      }`}
+                    >
                       {project.status}
                     </span>
                   </div>
@@ -872,10 +1016,14 @@ const ProjectsPage = () => {
                     <h3 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300">
                       {project.title}
                     </h3>
-                    <span className="text-cyan-400 font-bold text-sm">{project.year}</span>
+                    <span className="text-cyan-400 font-bold text-sm">
+                      {project.year}
+                    </span>
                   </div>
 
-                  <p className="text-gray-300 mb-6 leading-relaxed">{project.description}</p>
+                  <p className="text-gray-300 mb-6 leading-relaxed">
+                    {project.description}
+                  </p>
 
                   {/* Project Details */}
                   <div className="grid grid-cols-2 gap-4 mb-6 text-sm">
@@ -885,7 +1033,9 @@ const ProjectsPage = () => {
                     </div>
                     <div>
                       <span className="text-gray-400">Location:</span>
-                      <p className="text-white font-semibold">{project.location}</p>
+                      <p className="text-white font-semibold">
+                        {project.location}
+                      </p>
                     </div>
                   </div>
 
@@ -896,9 +1046,20 @@ const ProjectsPage = () => {
                         key={featureIndex}
                         className="px-3 py-1 bg-gray-700/50 text-gray-300 rounded-full text-xs font-medium"
                         initial={{ opacity: 0, scale: 0 }}
-                        animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
-                        transition={{ delay: 1.0 + index * 0.1 + featureIndex * 0.05, duration: 0.3 }}
-                        whileHover={{ scale: 1.05, backgroundColor: '#667eea', color: 'white' }}
+                        animate={
+                          isInView
+                            ? { opacity: 1, scale: 1 }
+                            : { opacity: 0, scale: 0 }
+                        }
+                        transition={{
+                          delay: 1.0 + index * 0.1 + featureIndex * 0.05,
+                          duration: 0.3,
+                        }}
+                        whileHover={{
+                          scale: 1.05,
+                          backgroundColor: "#667eea",
+                          color: "white",
+                        }}
                       >
                         {feature}
                       </motion.span>
@@ -920,102 +1081,117 @@ const ProjectsPage = () => {
               </motion.div>
             ))}
           </motion.div>
+
+          {/* quick view modal */}
+          <AnimatePresence>
+            {selectedProject && (
+              <motion.div
+                className="absolute inset-0 z-50 flex items-center justify-center bg-black/75 px-4 py-8 backdrop-blur-md"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setSelectedProject(null)}
+              >
+                <motion.div
+                  className="relative max-h-[90vh] w-full max-w-5xl overflow-y-auto rounded-3xl bg-gray-950 shadow-2xl ring-1 ring-white/15"
+                  initial={{ opacity: 0, y: 40, scale: 0.86 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 30, scale: 0.9 }}
+                  transition={{ type: "spring", stiffness: 220, damping: 24 }}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="grid lg:grid-cols-[1.1fr_0.9fr]">
+                    <div className="relative min-h-[320px] overflow-hidden bg-gradient-to-br from-gray-700 to-gray-900 lg:min-h-[620px]">
+                      <div
+                        className={`absolute inset-0 bg-gradient-to-br ${selectedProject.color}`}
+                      >
+                        <img
+                          src={selectedProject.image}
+                          alt={selectedProject.title}
+                          className="h-full w-full object-cover opacity-95 mix-blend-luminosity"
+                        />
+                      </div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                      <div className="absolute left-5 top-5">
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-bold text-white ${
+                            selectedProject.status === "Completed"
+                              ? "bg-green-500"
+                              : selectedProject.status === "Under Construction"
+                                ? "bg-yellow-500"
+                                : "bg-blue-500"
+                          }`}
+                        >
+                          {selectedProject.status}
+                        </span>
+                      </div>
+                      <div className="absolute right-5 top-5">
+                        <span className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-gray-700">
+                          {selectedProject.category}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="p-7 md:p-10">
+                      <div className="mb-6 flex items-start justify-between gap-5">
+                        <div>
+                          <p className="mb-2 text-sm font-bold uppercase tracking-widest text-cyan-400">
+                            {selectedProject.year}
+                          </p>
+                          <h3 className="text-3xl font-bold leading-tight text-white md:text-5xl">
+                            {selectedProject.title}
+                          </h3>
+                        </div>
+                        <button
+                          type="button"
+                          aria-label="Close project details"
+                          onClick={() => setSelectedProject(null)}
+                          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+                        >
+                          <X className="h-5 w-5" />
+                        </button>
+                      </div>
+
+                      <p className="mb-8 text-base leading-relaxed text-gray-300 md:text-lg">
+                        {selectedProject.description}
+                      </p>
+
+                      <div className="mb-8 grid grid-cols-2 gap-4">
+                        <div className="rounded-2xl bg-white/5 p-4">
+                          <span className="text-sm text-gray-400">Area</span>
+                          <p className="mt-1 text-lg font-bold text-white">
+                            {selectedProject.area}
+                          </p>
+                        </div>
+                        <div className="rounded-2xl bg-white/5 p-4">
+                          <span className="text-sm text-gray-400">
+                            Location
+                          </span>
+                          <p className="mt-1 text-lg font-bold text-white">
+                            {selectedProject.location}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-wrap gap-2">
+                        {selectedProject.features.map((feature) => (
+                          <span
+                            key={feature}
+                            className="rounded-full bg-cyan-500/15 px-4 py-2 text-sm font-medium text-cyan-100"
+                          >
+                            {feature}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+          {/* the end of quick view modal */}
         </div>
       </section>
-
-      <AnimatePresence>
-        {selectedProject && (
-          <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 px-4 py-8 backdrop-blur-md"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedProject(null)}
-          >
-            <motion.div
-              className="relative max-h-[90vh] w-full max-w-5xl overflow-y-auto rounded-3xl bg-gray-950 shadow-2xl ring-1 ring-white/15"
-              initial={{ opacity: 0, y: 40, scale: 0.86 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 30, scale: 0.9 }}
-              transition={{ type: 'spring', stiffness: 220, damping: 24 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="grid lg:grid-cols-[1.1fr_0.9fr]">
-                <div className="relative min-h-[320px] overflow-hidden bg-gradient-to-br from-gray-700 to-gray-900 lg:min-h-[620px]">
-                  <div className={`absolute inset-0 bg-gradient-to-br ${selectedProject.color}`}>
-                    <img
-                      src={selectedProject.image}
-                      alt={selectedProject.title}
-                      className="h-full w-full object-cover opacity-95 mix-blend-luminosity"
-                    />
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-                  <div className="absolute left-5 top-5">
-                    <span className={`px-3 py-1 rounded-full text-xs font-bold text-white ${
-                      selectedProject.status === 'Completed' ? 'bg-green-500' :
-                      selectedProject.status === 'Under Construction' ? 'bg-yellow-500' : 'bg-blue-500'
-                    }`}>
-                      {selectedProject.status}
-                    </span>
-                  </div>
-                  <div className="absolute right-5 top-5">
-                    <span className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-gray-700">
-                      {selectedProject.category}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="p-7 md:p-10">
-                  <div className="mb-6 flex items-start justify-between gap-5">
-                    <div>
-                      <p className="mb-2 text-sm font-bold uppercase tracking-widest text-cyan-400">
-                        {selectedProject.year}
-                      </p>
-                      <h3 className="text-3xl font-bold leading-tight text-white md:text-5xl">
-                        {selectedProject.title}
-                      </h3>
-                    </div>
-                    <button
-                      type="button"
-                      aria-label="Close project details"
-                      onClick={() => setSelectedProject(null)}
-                      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
-                    >
-                      <X className="h-5 w-5" />
-                    </button>
-                  </div>
-
-                  <p className="mb-8 text-base leading-relaxed text-gray-300 md:text-lg">
-                    {selectedProject.description}
-                  </p>
-
-                  <div className="mb-8 grid grid-cols-2 gap-4">
-                    <div className="rounded-2xl bg-white/5 p-4">
-                      <span className="text-sm text-gray-400">Area</span>
-                      <p className="mt-1 text-lg font-bold text-white">{selectedProject.area}</p>
-                    </div>
-                    <div className="rounded-2xl bg-white/5 p-4">
-                      <span className="text-sm text-gray-400">Location</span>
-                      <p className="mt-1 text-lg font-bold text-white">{selectedProject.location}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-wrap gap-2">
-                    {selectedProject.features.map((feature) => (
-                      <span
-                        key={feature}
-                        className="rounded-full bg-cyan-500/15 px-4 py-2 text-sm font-medium text-cyan-100"
-                      >
-                        {feature}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* CTA Section */}
       <section className="py-20">
@@ -1026,10 +1202,13 @@ const ProjectsPage = () => {
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
             transition={{ delay: 1.5, duration: 0.8 }}
           >
-            <h3 className="text-3xl font-bold text-white mb-6">Ready to Start Your Project?</h3>
+            <h3 className="text-3xl font-bold text-white mb-6">
+              Ready to Start Your Project?
+            </h3>
             <p className="text-gray-300 text-lg mb-8">
-              Let's discuss how we can bring your architectural vision to life. 
-              From initial concept to final construction, we're here to guide you every step of the way.
+              Let's discuss how we can bring your architectural vision to life.
+              From initial concept to final construction, we're here to guide
+              you every step of the way.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <motion.button
@@ -1051,7 +1230,7 @@ const ProjectsPage = () => {
         </div>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default ProjectsPage
+export default ProjectsPage;

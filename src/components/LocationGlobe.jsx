@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import worldMap from "../data/world.json";
 import {
   Check,
   CircleDashed,
@@ -104,81 +105,15 @@ const THEMES = {
     accent: "#f59e0b",
   },
 };
-const LANDMASSES = [
-  [
-    [-168, 65],
-    [-150, 72],
-    [-120, 76],
-    [-80, 70],
-    [-55, 54],
-    [-81, 25],
-    [-85, 20],
-    [-77, 8],
-    [-105, 20],
-    [-124, 48],
-  ],
-  [
-    [-77, 8],
-    [-60, 10],
-    [-35, -5],
-    [-44, -23],
-    [-65, -45],
-    [-75, -50],
-    [-72, -30],
-  ],
-  [
-    [-10, 36],
-    [-8, 44],
-    [5, 62],
-    [28, 71],
-    [100, 77],
-    [170, 66],
-    [142, 50],
-    [122, 30],
-    [108, 14],
-    [100, 3],
-    [73, 20],
-    [55, 27],
-    [28, 41],
-    [10, 37],
-  ],
-  [
-    [-6, 36],
-    [10, 37],
-    [32, 31],
-    [51, 10],
-    [43, -12],
-    [28, -33],
-    [20, -35],
-    [12, -18],
-    [4, 4],
-    [-17, 15],
-  ],
-  [
-    [114, -22],
-    [115, -34],
-    [140, -38],
-    [153, -28],
-    [142, -11],
-    [122, -17],
-  ],
-  [
-    [130, 32],
-    [133, 35],
-    [141, 44],
-    [145, 44],
-    [140, 36],
-    [135, 33],
-  ],
-  [
-    [95, 5],
-    [105, -5],
-    [125, -8],
-    [140, -4],
-    [130, -8],
-    [110, -8],
-  ],
-];
+// Natural Earth country boundaries, kept locally so the globe stays fully
+// functional without making a network request in the browser.
+const COUNTRY_SHAPES = worldMap.features.flatMap(({ geometry }) => {
+  if (!geometry) return [];
+  if (geometry.type === "Polygon") return [geometry.coordinates];
+  if (geometry.type === "MultiPolygon") return geometry.coordinates;
+  return [];
+});
+
 function inside([x, y], polygon) {
   let result = false;
   for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
@@ -192,12 +127,19 @@ function inside([x, y], polygon) {
   }
   return result;
 }
+
+function isLand(point) {
+  return COUNTRY_SHAPES.some(([outerRing, ...holes]) =>
+    inside(point, outerRing) && !holes.some((hole) => inside(point, hole)),
+  );
+}
+
 const DOTS = (() => {
   const dots = [];
-  for (let lat = -55; lat <= 80; lat += 2.35) {
+  for (let lat = -85; lat <= 83; lat += 2.35) {
     const step = 2.6 / Math.max(0.2, Math.cos((lat * Math.PI) / 180));
     for (let lon = -180; lon < 180; lon += step) {
-      if (!LANDMASSES.some((shape) => inside([lon, lat], shape))) continue;
+      if (!isLand([lon, lat])) continue;
       const phi = ((90 - lat) * Math.PI) / 180,
         theta = ((lon + 180) * Math.PI) / 180;
       dots.push({

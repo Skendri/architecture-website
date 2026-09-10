@@ -12,6 +12,7 @@ import AboutPage from "./components/AboutPage";
 import ProjectsPage from "./components/ProjectsPage";
 import Parallax from "./components/Parallax";
 import ContactPage from "./components/ContactPage";
+import LocationGlobe from "./components/LocationGlobe";
 
 
 const pageVariants = {
@@ -127,6 +128,25 @@ function App() {
                   transition={pageTransition}
                 >
                   <Parallax />
+                </motion.div>
+              </AnimatePresence>
+            }
+          />
+
+          {/* Location Globe Page - Full Page per prove */}
+          <Route
+            path="/LocationGlobe"
+            element={
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key="LocationGlobe"
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                >
+                  <LocationGlobe />
                 </motion.div>
               </AnimatePresence>
             }

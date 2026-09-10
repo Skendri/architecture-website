@@ -34,6 +34,7 @@ const Header = ({ showLogo }) => {
     { name: "About", href: "/about" },
     { name: "Projects", href: "/projects" },
     { name: "Parallax", href: "/parallax" },
+    { name: "LocationGlobe", href: "/LocationGlobe" },
     { name: "Contact", href: "/contact" },
   ];
 

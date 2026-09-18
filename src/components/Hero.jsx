@@ -126,7 +126,7 @@ const Hero = ({ showLogo }) => {
           </div>
           {/* Buttons */}
           <motion.div
-            className="flex flex-col pt-25 sm:flex-row gap-4"
+            className="flex flex-col pt-25 sm:flex-row gap-6"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={
@@ -137,22 +137,22 @@ const Hero = ({ showLogo }) => {
           >
             <motion.button
               onClick={scrollToProjects}
-              className="group relative inline-flex items-center justify-center overflow-hidden rounded-full p-0.5 bg-gradient-to-br from-purple-500 to-pink-500 focus:outline-none focus:ring-4 focus:ring-purple-200 transition-all duration-300"
+              className="btn items-center justify-center overflow-hidden"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <span className="relative inline-flex items-center justify-center rounded-full bg-[#141414]/90 px-6 py-3 text-sm font-medium text-white transition-all duration-75 group-hover:bg-transparent group-hover:text-white">
+              <span className="relative inline-flex items-center justify-center">
                 View Our Work
                 <ArrowRight className="ml-2 transition-transform duration-300 group-hover:translate-x-1" />
               </span>
             </motion.button>
             <motion.button
               onClick={scrollToContact}
-              className="btn group relative inline-flex items-center justify-center overflow-hidden rounded-full p-0.5 bg-gradient-to-br from-purple-500 to-pink-500 focus:outline-none focus:ring-4 focus:ring-purple-200 transition-all duration-300"
+              className="btn items-center justify-center overflow-hidden"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <span className="relative inline-flex items-center justify-center rounded-full bg-[#141414]/90 px-6 py-3 text-sm font-medium text-white transition-all duration-75 group-hover:bg-transparent group-hover:text-white">
+              <span className="relative inline-flex items-center justify-center">
                 Get In Touch
                 <Sparkles className="ml-2 group-hover:rotate-12 transition-transform duration-300" />
               </span>

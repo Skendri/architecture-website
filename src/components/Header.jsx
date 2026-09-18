@@ -7,7 +7,6 @@ const Header = ({ showLogo }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const [activeSection, setActiveSection] = useState(location.pathname === "/" ? "home" : location.pathname.slice(1));
   const [animationStage, setAnimationStage] = useState("fadeIn");
   const [targetPos, setTargetPos] = useState({ x: -200, y: -800 });
 
@@ -22,12 +21,6 @@ const Header = ({ showLogo }) => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  useEffect(() => {
-    setActiveSection(
-      location.pathname === "/" ? "home" : location.pathname.slice(1),
-    );
-  }, [location.pathname]);
 
   const navItems = [
     { name: "Home", href: "/" },
@@ -105,21 +98,22 @@ const Header = ({ showLogo }) => {
       </div>
       {/* 🔹 start NAVBAR  */}
       <motion.header
-        className={`fixed top-0 left-0 right-0 z-50 px-3 transition-all duration-300 sm:px-3 ${isScrolled ? "bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200" : "bg-transparent"}`}
+        className={`fixed top-0 left-0 right-0 z-50 px-3 transition-all duration-300 sm:px-3 ${isScrolled ? "bg-white/50 backdrop-blur-md shadow-lg border-b border-gray-200" : "bg-transparent text-white"}`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ delay: 6.5, duration: 0.6, ease: "easeOut" }}
       >
         <div className="container">
-          <div className="flex justify-between items-center py-4">
+          <div className="flex justify-between items-center py-6 ">
             {/* 🔹 logo header  */}
-            <div
+            <p
               ref={headerLogoRef}
               id="header-logo"
-              className="text-2xl font-serif font-semibold text-gray-900"
-            >
+              className="text-2xl cursor-pointer font-serif font-semibold text-gray-900 
+              transition-all duration-300 
+              hover:[text-shadow:0_0_40px_white,0_0_40px_white,0_0_40px_rgba(255,255,255,0.7)]">
               ArchStudio
-            </div>
+            </p>
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex space-x-8">
@@ -133,18 +127,12 @@ const Header = ({ showLogo }) => {
                 >
                   <Link
                     to={item.href}
-                    className={`relative ${activeSection === item.href.slice(1) || (item.href === "/" && activeSection === "home") ? "text-primary-500" : "text-white"} hover:text-primary-500 font-medium transition-colors duration-300`}
+                    className={`relative hover:text-primary-500 font-bold transition-colors duration-300`}
                   >
                     {item.name}
                     <motion.div
                       className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-primary-500 to-secondary-500"
-                      initial={{
-                        scaleX:
-                          activeSection === item.href.slice(1) ||
-                          (item.href === "/" && activeSection === "home")
-                            ? 1
-                            : 0,
-                      }}
+                      initial={{ scaleX: 0 }}
                       whileHover={{ scaleX: 1 }}
                       transition={{ duration: 0.3 }}
                     />

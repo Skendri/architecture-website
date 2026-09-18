@@ -153,34 +153,36 @@ const Projects = ({ isFullPage = false }) => {
 
   return (
     <section id={isFullPage ? undefined : "projects"} className={sectionClasses} ref={ref}>
-      <div className="container">
+      <div className="container px-14">
         {/* Header */}
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 1.0, ease: 'easeInOut' }}
-        >
-          <motion.h2
-            className={`${isFullPage ? 'text-5xl md:text-6xl text-white mb-8' : 'heading-2 text-white mb-6'}`}
+        <div className="bg-gray-900 border border-white/20 rounded-3xl p-5 mb-16 shadow-xl">
+          <motion.div
+            className="text-center mb-16"
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ delay: 0.3, duration: 1.0, ease: 'easeInOut' }}
+            transition={{ duration: 1.0, ease: 'easeInOut' }}
           >
-            {isFullPage ? 'Our Complete Portfolio' : 'Our Featured Projects'}
-          </motion.h2>
-          <motion.p
-            className={`${isFullPage ? 'text-xl text-gray-300 max-w-4xl mx-auto' : 'text-large text-white max-w-3xl mx-auto'}`}
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ delay: 0.6, duration: 1.0, ease: 'easeInOut' }}
-          >
-            {isFullPage
-              ? 'Discover our comprehensive collection of architectural projects spanning residential, commercial, cultural, and institutional designs that showcase our commitment to innovation and sustainability.'
-              : 'Explore our portfolio of innovative architectural designs that have transformed communities and set new standards for sustainable development.'
-            }
-          </motion.p>
-        </motion.div>
+            <motion.h2
+              className={`${isFullPage ? 'text-5xl md:text-6xl text-white mb-8' : 'heading-2 text-white mb-6'}`}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+              transition={{ delay: 0.3, duration: 1.0, ease: 'easeInOut' }}
+            >
+              {isFullPage ? 'Our Complete Portfolio' : 'Our Featured Projects'}
+            </motion.h2>
+            <motion.p
+              className={`${isFullPage ? 'text-xl text-gray-300 max-w-4xl mx-auto' : 'text-large text-white max-w-3xl mx-auto'}`}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+              transition={{ delay: 0.6, duration: 1.0, ease: 'easeInOut' }}
+            >
+              {isFullPage
+                ? 'Discover our comprehensive collection of architectural projects spanning residential, commercial, cultural, and institutional designs that showcase our commitment to innovation and sustainability.'
+                : 'Explore our portfolio of innovative architectural designs that have transformed communities and set new standards for sustainable development.'
+              }
+            </motion.p>
+          </motion.div>
+        </div>
 
         {/* Projects Grid */}
         <motion.div
@@ -269,41 +271,43 @@ const Projects = ({ isFullPage = false }) => {
 
         {/* CTA Section - only show on section page */}
         {!isFullPage && (
-          <motion.div
-            className="text-center bg-white rounded-3xl p-12 shadow-xl"
-            initial={{ opacity: 0, y: 50 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-            transition={{ delay: 1.5, duration: 1.0, ease: 'easeInOut' }}
-          >
-            <motion.h3
-              className="heading-3 mb-4"
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-              transition={{ delay: 1.8, duration: 1.0, ease: 'easeInOut' }}
+          <div className="bg-gray-900 border border-white/20 rounded-3xl p-5 shadow-xl">
+            <motion.div
+              className="text-center bg-white/5 backdrop-blur-3xl border border-white/20 rounded-3xl p-12 shadow-xl"
+              initial={{ opacity: 0, y: 50 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+              transition={{ delay: 1.5, duration: 1.0, ease: 'easeInOut' }}
             >
-              Ready to Start Your Project?
-            </motion.h3>
-            <motion.p
-              className="text-large mb-8"
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-              transition={{ delay: 2.1, duration: 1.0, ease: 'easeInOut' }}
-            >
-              Let's discuss how we can bring your architectural vision to life.
-            </motion.p>
-            <motion.button
-              onClick={scrollToContact}
-              className="btn group"
-              whileHover={{ scale: 1.05, transition: { duration: 0.5, ease: 'easeInOut' } }}
-              whileTap={{ scale: 0.95, transition: { duration: 0.3, ease: 'easeInOut' } }}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-              transition={{ delay: 2.4, duration: 1.0, ease: 'easeInOut' }}
-            >
-              Start a Project
-              <ExternalLink className="ml-2 group-hover:rotate-12 transition-transform duration-300" />
-            </motion.button>
-          </motion.div>
+              <motion.h3
+                className="heading-3 text-white mb-4"
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ delay: 1.8, duration: 1.0, ease: 'easeInOut' }}
+              >
+                Ready to Start Your Project?
+              </motion.h3>
+              <motion.p
+                className="text-large text-white mb-8"
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ delay: 2.1, duration: 1.0, ease: 'easeInOut' }}
+              >
+                Let's discuss how we can bring your architectural vision to life.
+              </motion.p>
+              <motion.p
+                onClick={scrollToContact}
+                className="btn group text-purple-500 bg-white hover:bg-purple-500 hover:text-white transition-colors duration-300"
+                whileHover={{ scale: 1.05, transition: { duration: 0.5, ease: 'easeInOut' } }}
+                whileTap={{ scale: 0.95, transition: { duration: 0.3, ease: 'easeInOut' } }}
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ delay: 2.4, duration: 1.0, ease: 'easeInOut' }}
+              >
+                Start a Project
+                <ExternalLink className="ml-2 group-hover:rotate-12 transition-transform duration-300" />
+              </motion.p>
+            </motion.div>
+          </div>
         )}
       </div>
     </section>

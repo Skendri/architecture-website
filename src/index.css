@@ -28,7 +28,7 @@
 @layer components {
   .btn {
     @apply inline-flex items-center justify-center 
-            px-6 py-3 bg-gradient-to-r from-primary-500 to-secondary-500 
+            px-6 py-3
             text-white font-medium rounded-full transition-all 
             duration-300 hover:shadow-lg hover:shadow-primary-500/25 hover:-translate-y-1;
   }
@@ -49,16 +49,18 @@
     @apply text-5xl md:text-6xl lg:text-7xl font-serif font-semibold leading-tight;
   }
 
-  .bg {
-    background-image: url('./images/Screenshot from 2025-10-30 00-43-07.png');
+  .bg-about {
+    /* background-image: url('./images/Screenshot from 2025-10-30 00-43-07.png');
     background-size: cover;
-    background-position: center;
+    background-position: center; */
+     background-color: aliceblue;
   }
 
   .bg-project {
-    background-image: url('./images/kosmos-kom-h9WqOEJiL7g-unsplash.jpg');
+    /* background-image: url('./images/kosmos-kom-h9WqOEJiL7g-unsplash.jpg');
     background-size: cover;
-    background-position: center;
+    background-position: center; */
+    background-color: aliceblue;
   }
 
   .heading-2 {
@@ -70,7 +72,7 @@
   }
 
   .text-large {
-    @apply text-lg md:text-xl text-gray-600 leading-relaxed;
+    @apply text-lg md:text-xl text-gray-800 leading-relaxed;
   }
 
   .card {

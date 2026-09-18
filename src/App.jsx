@@ -69,6 +69,7 @@ function App() {
                 >
                   <Hero showLogo={showLogo} />
                   <Projects />
+                  <hr />
                   <About />
                   <Contact />
                 </motion.div>

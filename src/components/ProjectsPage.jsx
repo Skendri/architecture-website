@@ -5,14 +5,6 @@ import { useRef as useReactRef } from "react";
 import {
   ExternalLink,
   ArrowRight,
-  Filter,
-  Grid,
-  List,
-  ChevronLeft,
-  ChevronRight,
-  Heart,
-  ShoppingCart,
-  Menu,
   X,
 } from "lucide-react";
 
@@ -395,7 +387,7 @@ const ProjectsPage = () => {
         "Natural Lighting",
         "Green Spaces",
       ],
-      color: "from-purple-500 to-pink-500",
+      color: "from-blue-500 to-cyan-500",
       status: "Completed",
       year: "2023",
       area: "120,000 sq ft",
@@ -415,8 +407,7 @@ const ProjectsPage = () => {
         "Community Areas",
         "Outdoor Amphitheater",
       ],
-      color: "from-orange-500 to-red-500",
-      status: "Under Construction",
+      color: "from-blue-500 to-cyan-500",      status: "Under Construction",
       year: "2025",
       area: "75,000 sq ft",
       location: "Cultural District",
@@ -435,7 +426,7 @@ const ProjectsPage = () => {
         "Renewable Energy",
         "Learning Gardens",
       ],
-      color: "from-green-500 to-emerald-500",
+      color: "from-blue-500 to-cyan-500",
       status: "Completed",
       year: "2024",
       area: "200,000 sq ft",
@@ -455,8 +446,8 @@ const ProjectsPage = () => {
         "Eco-Friendly Design",
         "Infinity Pool",
       ],
-      color: "from-teal-500 to-blue-500",
-      status: "Planning",
+      color: "from-blue-500 to-cyan-500",
+     status: "Planning",
       year: "2026",
       area: "300,000 sq ft",
       location: "Coastal Area",
@@ -475,7 +466,7 @@ const ProjectsPage = () => {
         "Public Parks",
         "Community Center",
       ],
-      color: "from-indigo-500 to-purple-500",
+      color: "from-blue-500 to-cyan-500",
       status: "Under Construction",
       year: "2025",
       area: "500,000 sq ft",
@@ -492,6 +483,7 @@ const ProjectsPage = () => {
     "Hospitality",
     "Mixed-Use",
   ];
+  
   const [selectedCategory, setSelectedCategory] = React.useState("All");
   const [selectedProject, setSelectedProject] = useState(null);
 

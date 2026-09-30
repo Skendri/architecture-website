@@ -38,6 +38,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-gray-900 text-white section-padding sticky top-0 z-50" ref={ref}>
+      <hr />
       <div className="container">
         {/* Main Footer Content */}
         <motion.div

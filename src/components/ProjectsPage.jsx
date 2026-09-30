@@ -1,12 +1,9 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef as useReactRef } from "react";
-import {
-  ExternalLink,
-  ArrowRight,
-  X,
-} from "lucide-react";
+import { ExternalLink, ArrowRight, X,} from "lucide-react";
+import ParallaxHero from "../childComponents/ParallaxHero";
 
 // Icons (IKEA-style SVGs)
 const LeftArrowIcon = () => (
@@ -483,6 +480,52 @@ const ProjectsPage = () => {
     "Hospitality",
     "Mixed-Use",
   ];
+
+  // this is for sliders with fade-out white background
+  const slides = [
+  {
+    id: 1,
+    title: "Modern Office Design",
+    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=2000&q=80",
+    client: "Corporate Headquarters",
+    area: "3206㎡",
+    year: "2024"
+  },
+  {
+    id: 2,
+    title: "Innovative Workspace",
+    image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=2000&q=80",
+    client: "Tech Innovation Hub",
+    area: "1322㎡",
+    year: "2024"
+  },
+  {
+    id: 3,
+    title: "Sustainable Architecture",
+    image: "https://images.unsplash.com/photo-1497215842964-222b430dc094?w=2000&q=80",
+    client: "Green Building Complex",
+    area: "661㎡",
+    year: "2023"
+  }
+]
+
+  // this slide effect is for compoment with slides prop
+  const [scrollY, setScrollY] = useState(0)
+  // const [currentSlide, setCurrentSlide] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length)
+    }, 5000)
+    return () => clearInterval(interval)
+  }, [])
+    // this slide effect is for compoment with slides prop
   
   const [selectedCategory, setSelectedCategory] = React.useState("All");
   const [selectedProject, setSelectedProject] = useState(null);
@@ -634,7 +677,12 @@ const ProjectsPage = () => {
   }, [nextSlide, prevSlide, moveItemsByKeyboard]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black pt-20">
+    <div className=" min-h-screen bg-white">
+
+      <section  className="relative w-full h-[100vh] overflow-hidden  bg-white">
+              <ParallaxHero slides={slides} currentSlide={currentSlide} scrollY={scrollY} />
+      </section>
+
       {/* IKEA-Style Room Carousel Section */}
       <section
         ref={carouselRef}
@@ -820,74 +868,8 @@ const ProjectsPage = () => {
         </div>
       </section>
 
-      {/* IKEA-Style Quick View Section */}
-      <section className="py-20 bg-gradient-to-b from-black to-gray-900">
-        <div className="container mx-auto px-4">
-          <motion.div
-            className="flex flex-col md:flex-row gap-8 items-center"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            {/* Large Image */}
-            <div className="w-full md:w-1/2 relative">
-              <div className="aspect-[4/3] rounded-3xl overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80"
-                  alt="Featured Project"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-
-            {/* Content */}
-            <div className="w-full md:w-1/2 space-y-6">
-              <div className="inline-block bg-cyan-500 text-white px-4 py-1 rounded-full text-sm font-medium">
-                Featured Project
-              </div>
-              <h3 className="text-4xl font-bold text-white">
-                Sustainable Modern Living
-              </h3>
-              <p className="text-gray-400 text-lg leading-relaxed">
-                Experience the perfect blend of contemporary design and
-                sustainable architecture. Our award-winning residential complex
-                features innovative green building techniques, smart home
-                technology, and modern amenities that redefine urban living.
-              </p>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-white/5 rounded-xl p-4">
-                  <div className="text-3xl font-bold text-cyan-400">50,000</div>
-                  <div className="text-gray-400 text-sm">Square Feet</div>
-                </div>
-                <div className="bg-white/5 rounded-xl p-4">
-                  <div className="text-3xl font-bold text-cyan-400">2024</div>
-                  <div className="text-gray-400 text-sm">Completion Year</div>
-                </div>
-                <div className="bg-white/5 rounded-xl p-4">
-                  <div className="text-3xl font-bold text-cyan-400">LEED</div>
-                  <div className="text-gray-400 text-sm">Certified</div>
-                </div>
-                <div className="bg-white/5 rounded-xl p-4">
-                  <div className="text-3xl font-bold text-cyan-400">5★</div>
-                  <div className="text-gray-400 text-sm">Rating</div>
-                </div>
-              </div>
-              <motion.button
-                className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-8 py-4 rounded-full font-semibold text-lg flex items-center gap-3"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                View Full Project
-                <ArrowRight className="w-5 h-5" />
-              </motion.button>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
       {/* Hero Section */}
-      <section className="py-20">
+      <section className="py-20 bg-white/5 backdrop-blur-sm">
         <div className="container">
           <motion.div
             className="text-center max-w-4xl mx-auto"
@@ -895,10 +877,10 @@ const ProjectsPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.0 }}
           >
-            <h1 className="text-6xl md:text-7xl font-bold text-white mb-8">
+            <h1 className="text-6xl md:text-7xl font-bold gradient-text mb-8">
               Our <span className="gradient-text">Portfolio</span>
             </h1>
-            <p className="text-xl text-gray-300 leading-relaxed">
+            <p className="text-xl gradient-text leading-relaxed">
               Explore our comprehensive collection of architectural projects
               spanning residential, commercial, cultural, and institutional
               designs that showcase our commitment to innovation,
@@ -909,7 +891,7 @@ const ProjectsPage = () => {
       </section>
 
       {/* Filter Section */}
-      <section className="py-10" ref={ref}>
+      <section className="py-10 bg-white/5 backdrop-blur-sm" ref={ref}>
         <div className="container">
           <motion.div
             className="flex flex-wrap justify-center gap-4"
@@ -922,8 +904,8 @@ const ProjectsPage = () => {
                 key={category}
                 className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
                   selectedCategory === category
-                    ? "bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg"
-                    : "bg-white/10 text-gray-300 hover:bg-white/20 backdrop-blur-sm"
+                    ? "bg-gradient-to-r from-blue-500 to-cyan-500 shadow-lg"
+                    : "bg-white/10 text-black-300 hover:bg-white/20 backdrop-blur-sm"
                 }`}
                 onClick={() => setSelectedCategory(category)}
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -943,8 +925,8 @@ const ProjectsPage = () => {
         </div>
       </section>
 
-      {/* Projects Grid */}
-      <section className="relative py-20">
+      {/* Projects Grid with quick view modal*/}
+      <section className="relative py-20 bg-black/90">
         <div className="container">
           <motion.div
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
@@ -1186,7 +1168,7 @@ const ProjectsPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20">
+      <section className="py-20 bg-gray-900">
         <div className="container">
           <motion.div
             className="text-center bg-white/10 backdrop-blur-sm rounded-3xl p-12 max-w-4xl mx-auto"

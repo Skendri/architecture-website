@@ -69,7 +69,7 @@ function App() {
                 >
                   <Hero showLogo={showLogo} />
                   <Projects />
-                  <hr />
+                  <hr style={{ color: 'black' }} />
                   <About />
                   <Contact />
                 </motion.div>

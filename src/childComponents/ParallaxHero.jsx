@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 
 const ParallaxHero = ({ slides, currentSlide, scrollY }) => (
-  <section className="relative h-screen w-full overflow-hidden">
+  <section className="relative h-screen w-full overflow-x-clip overflow-y-visible">
     <AnimatePresence mode="wait">
       {slides.map((slide, index) => (
         index === currentSlide && (

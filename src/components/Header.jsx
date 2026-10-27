@@ -1,14 +1,12 @@
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence, easeInOut } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Header = ({ showLogo }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const location = useLocation();
   const [animationStage, setAnimationStage] = useState("fadeIn");
-  const [targetPos, setTargetPos] = useState({ x: -200, y: -800 });
 
   const headerLogoRef = useRef(null);
 
@@ -24,8 +22,8 @@ const Header = ({ showLogo }) => {
 
   const navItems = [
     { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
     { name: "Projects", href: "/projects" },
+    { name: "About", href: "/about" },
     { name: "Parallax", href: "/parallax" },
     { name: "LocationGlobe", href: "/LocationGlobe" },
     { name: "Contact", href: "/contact" },
@@ -54,21 +52,19 @@ const Header = ({ showLogo }) => {
                 {/* 🔹 Logo */}
                 <motion.h1
                   initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                  animate={
+                   animate={
                     animationStage === "fadeIn"
-                      ? { opacity: 1, y: 0, scale: 1 }
+                      ? { opacity: 1, y: 0 }
                       : {
-                          x: targetPos.x,
-                          y: targetPos.y,
-                          scale: 0.4,
                           opacity: 0,
+                          y: 20,
                         }
                   }
                   transition={{
                     duration: animationStage === "fadeIn" ? 0.8 : 1.5,
                     ease: "easeInOut",
                   }}
-                  className="z-40 text-2xl sm:text-3xl md:text-5xl lg:text-5xl font-bold text-indigo-400">
+                  className="z-40 text-2xl sm:text-3xl md:text-5xl lg:text-7xl font-bold text-indigo-400">
                   ArchStudio
                 </motion.h1>
                 {/* 🔹 Subtitle */}
@@ -87,7 +83,7 @@ const Header = ({ showLogo }) => {
                     delay: animationStage === "fadeIn" ? 0.3 : 0,
                     ease: "easeInOut",
                   }}
-                  className="z-40 text-sm sm:text-base md:text-lg lg:text-xl font-medium text-green-900">
+                  className="z-40 text-sm sm:text-base md:text-lg lg:text-4xl font-medium text-green-900">
                   Designing Tomorrow's{" "}
                   <span className="gradient-text">Architecture</span>
                 </motion.h2>

@@ -8,7 +8,6 @@ import split1 from '../images/split_1.png'
 import split2 from '../images/split_2.png'
 import split3 from '../images/split_3.png'
 import split4 from '../images/split_4.png'
-// import bgImage from '../images/firstFlor.png'
 
 const projectCarouselSlides = [split1, split2, split3, split4]
 
@@ -142,51 +141,15 @@ const Projects = ({ isFullPage = false }) => {
   // Conditional styling based on context
   const sectionClasses = isFullPage ? "min-h-screen py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-black" : " section-padding bg-project"
 
-  const scrollToContact = () => {
-    if (!isFullPage) {
-      const element = document.getElementById('contact')
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' })
-      }
-    }
-  }
-
   return (
     <section id={isFullPage ? undefined : "projects"} className={sectionClasses} ref={ref}>
       <div className="container px-14">
-        {/* Header */}
-        <div className="bg-gray-900 border border-white/20 rounded-3xl p-5 mb-16 shadow-xl">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ duration: 1.0, ease: 'easeInOut' }}
-          >
-            <motion.h2
-              className={`${isFullPage ? 'text-5xl md:text-6xl text-white mb-8' : 'heading-2 text-white mb-6'}`}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-              transition={{ delay: 0.3, duration: 1.0, ease: 'easeInOut' }}
-            >
-              {isFullPage ? 'Our Complete Portfolio' : 'Our Featured Projects'}
-            </motion.h2>
-            <motion.p
-              className={`${isFullPage ? 'text-xl text-gray-300 max-w-4xl mx-auto' : 'text-large text-white max-w-3xl mx-auto'}`}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-              transition={{ delay: 0.6, duration: 1.0, ease: 'easeInOut' }}
-            >
-              {isFullPage
-                ? 'Discover our comprehensive collection of architectural projects spanning residential, commercial, cultural, and institutional designs that showcase our commitment to innovation and sustainability.'
-                : 'Explore our portfolio of innovative architectural designs that have transformed communities and set new standards for sustainable development.'
-              }
-            </motion.p>
-          </motion.div>
-        </div>
+        
+        <CtaProject isInView={isInView} title={"Our Featured Projects"} paragraph={"Discover our comprehensive collection of architectural projects spanning residential, commercial, cultural, and institutional designs that showcase our commitment to innovation and sustainability."} button={"Start a Project"} />
 
         {/* Projects Grid */}
         <motion.div
-          className={`grid grid-cols-1 md:grid-cols-2 gap-8 ${isFullPage ? 'mb-20' : 'mb-16'}`}
+          className={`grid grid-cols-1 md:grid-cols-2 gap-8 ${isFullPage ? 'mb-20' : 'mb-16 mt-16'}`}
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ delay: 0.9, duration: 1.0, ease: 'easeInOut' }}
@@ -268,50 +231,69 @@ const Projects = ({ isFullPage = false }) => {
             )
           })}
         </motion.div>
+        {/* end of Projects Grid */}
 
         {/* CTA Section - only show on section page */}
         {!isFullPage && (
-          <div className="bg-gray-900 border border-white/20 rounded-3xl p-5 shadow-xl">
-            <motion.div
-              className="text-center bg-white/5 backdrop-blur-3xl border border-white/20 rounded-3xl p-12 shadow-xl"
-              initial={{ opacity: 0, y: 50 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-              transition={{ delay: 1.5, duration: 1.0, ease: 'easeInOut' }}
-            >
-              <motion.h3
-                className="heading-3 text-white mb-4"
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                transition={{ delay: 1.8, duration: 1.0, ease: 'easeInOut' }}
-              >
-                Ready to Start Your Project?
-              </motion.h3>
-              <motion.p
-                className="text-large text-white mb-8"
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                transition={{ delay: 2.1, duration: 1.0, ease: 'easeInOut' }}
-              >
-                Let's discuss how we can bring your architectural vision to life.
-              </motion.p>
-              <motion.p
-                onClick={scrollToContact}
-                className="btn group text-purple-500 bg-white hover:bg-purple-500 hover:text-white transition-colors duration-300"
-                whileHover={{ scale: 1.05, transition: { duration: 0.5, ease: 'easeInOut' } }}
-                whileTap={{ scale: 0.95, transition: { duration: 0.3, ease: 'easeInOut' } }}
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                transition={{ delay: 2.4, duration: 1.0, ease: 'easeInOut' }}
-              >
-                Start a Project
-                <ExternalLink className="ml-2 group-hover:rotate-12 transition-transform duration-300" />
-              </motion.p>
-            </motion.div>
-          </div>
+          <CtaProject isInView={isInView} title={"Ready to Start Your Project?"} paragraph={"Let's discuss how we can bring your architectural vision to life."} button={"Start a Project"} />
         )}
       </div>
     </section>
   )
 }
+
+
+// component for reuse purpose
+export const CtaProject = ({ isInView, title, paragraph, button }) => {
+
+   const scrollToContact = () => {
+    if (!isFullPage) {
+      const element = document.getElementById('contact')
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' })
+      };
+    };
+  };
+
+  return (
+      <div className="bg-gray-900 border border-white/20 rounded-3xl p-5 shadow-xl">
+        <motion.div
+          className="text-center bg-white/5 backdrop-blur-3xl border border-white/20 rounded-3xl p-12 shadow-xl"
+          initial={{ opacity: 0, y: 50 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          transition={{ delay: 1.5, duration: 1.0, ease: 'easeInOut' }}
+        >
+          <motion.h3
+            className="heading-3 text-white mb-4"
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ delay: 1.8, duration: 1.0, ease: 'easeInOut' }}
+          >
+            {title}
+          </motion.h3>
+          <motion.p
+            className="text-large text-white mb-8"
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ delay: 2.1, duration: 1.0, ease: 'easeInOut' }}
+          >
+            {paragraph}
+          </motion.p>
+          <motion.p
+            onClick={scrollToContact}
+            className="btn group text-purple-500 bg-white hover:bg-purple-500 hover:text-white transition-colors duration-300"
+            whileHover={{ scale: 1.05, transition: { duration: 0.5, ease: 'easeInOut' } }}
+            whileTap={{ scale: 0.95, transition: { duration: 0.3, ease: 'easeInOut' } }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ delay: 2.4, duration: 1.0, ease: 'easeInOut' }}
+          >
+            {button}
+            <ExternalLink className="ml-2 group-hover:rotate-12 transition-transform duration-300" />
+          </motion.p>
+        </motion.div>
+      </div>
+  )
+};
 
 export default Projects
